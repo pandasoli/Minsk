@@ -1,8 +1,8 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  public sealed class UnaryNode : ExpressionNode {
-    public UnaryNode(SyntaxToken op, ExpressionNode operand) {
+  public sealed class UnaryExprSyntax : ExpressionNode {
+    public UnaryExprSyntax(SyntaxToken op, ExpressionNode operand) {
       Op = op;
       Operand = operand;
     }
@@ -10,9 +10,9 @@ namespace Minsk.CodeAnalysis.Syntax
     public SyntaxToken Op { get; }
     public ExpressionNode Operand { get; }
 
-    public override SyntaxKind Kind => SyntaxKind.UnaryNode;
+    public override SyntaxKind Kind => SyntaxKind.UnaryExpr;
 
-    public override IEnumerable<SyntaxNode> GetChildren() {
+    public override IEnumerable<ExprSyntax> GetChildren() {
       yield return Op;
       yield return Operand;
     }

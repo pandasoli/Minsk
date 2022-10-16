@@ -69,7 +69,7 @@ namespace Minsk.CodeAnalysis.Syntax
         var op = Next();
         var operand = ParseExpr(unaryOpPrec);
 
-        left = new UnaryNode(op, operand);
+        left = new UnaryExprSyntax(op, operand);
       }
       else {
         left = ParsePrim();
@@ -84,7 +84,7 @@ namespace Minsk.CodeAnalysis.Syntax
         var op = Next();
         var right = ParseExpr(preced);
 
-        left = new BinaryNode(left, op, right);
+        left = new BinaryExprSyntax(left, op, right);
       }
 
       return left;
@@ -100,7 +100,7 @@ namespace Minsk.CodeAnalysis.Syntax
       }
 
       var num = Match(SyntaxKind.Number);
-      return new LiteralNode(num);
+      return new LiteralExprSyntax(num);
     }
 
   }

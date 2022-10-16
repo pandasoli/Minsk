@@ -1,8 +1,8 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  public sealed class BinaryNode : ExpressionNode {
-    public BinaryNode(ExpressionNode left, SyntaxToken op, ExpressionNode right) {
+  public sealed class BinaryExprSyntax : ExpressionNode {
+    public BinaryExprSyntax(ExpressionNode left, SyntaxToken op, ExpressionNode right) {
       Left = left;
       Op = op;
       Right = right;
@@ -12,9 +12,9 @@ namespace Minsk.CodeAnalysis.Syntax
     public SyntaxToken Op { get; }
     public ExpressionNode Right { get; }
 
-    public override SyntaxKind Kind => SyntaxKind.BinaryNode;
+    public override SyntaxKind Kind => SyntaxKind.BinaryExpr;
 
-    public override IEnumerable<SyntaxNode> GetChildren() {
+    public override IEnumerable<ExprSyntax> GetChildren() {
       yield return Left;
       yield return Op;
       yield return Right;

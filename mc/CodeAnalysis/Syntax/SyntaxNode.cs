@@ -1,10 +1,10 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  public abstract class SyntaxNode {
+  public abstract class ExprSyntax {
     public abstract SyntaxKind Kind { get; }
 
-    public abstract IEnumerable<SyntaxNode> GetChildren();
+    public abstract IEnumerable<ExprSyntax> GetChildren();
   }
 
 }

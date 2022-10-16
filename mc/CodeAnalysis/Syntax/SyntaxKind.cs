@@ -18,9 +18,9 @@ namespace Minsk.CodeAnalysis.Syntax
     CloseParen,
 
     // Nodes
-    LiteralNode,
-    BinaryNode,
-    UnaryNode,
+    LiteralExpr,
+    BinaryExpr,
+    UnaryExpr,
     ParenExpr
   }
 
