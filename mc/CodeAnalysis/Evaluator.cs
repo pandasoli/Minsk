@@ -26,9 +26,19 @@ namespace Minsk.CodeAnalysis
           case SyntaxKind.Dash: return left - right;
           case SyntaxKind.Star: return left * right;
           case SyntaxKind.Slash: return left / right;
+
           default:
             throw new Exception($"Unexpected binary operator {bin.Op.Kind}.");
         }
+      }
+
+      if (node is UnaryNode unary) {
+        var operand = EvalExpr(unary.Operand);
+
+        if (unary.Op.Kind == SyntaxKind.Plus) return operand;
+        if (unary.Op.Kind == SyntaxKind.Dash) return -operand;
+
+        throw new Exception($"Unexpected unary operator {unary.Op.Kind}.");
       }
 
       if (node is ParenExprNode par)

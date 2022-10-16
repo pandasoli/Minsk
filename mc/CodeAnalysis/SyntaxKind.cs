@@ -20,6 +20,7 @@ namespace Minsk.CodeAnalysis
     // Nodes
     LiteralNode,
     BinaryNode,
+    UnaryNode,
     ParenExpr
   }
 

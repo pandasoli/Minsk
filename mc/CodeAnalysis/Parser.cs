@@ -61,13 +61,24 @@ namespace Minsk.CodeAnalysis
       return new SyntaxToken(kind, Current.Pos, null, null);
     }
 
-    private ExpressionNode ParseExpr(int parentPreced = 0) {
-      var left = ParsePrim();
+    private ExpressionNode ParseExpr(int parentPrec = 0) {
+      ExpressionNode left;
+      var unaryOpPrec = Current.Kind.GetUnaryOpPreced();
+
+      if (unaryOpPrec != 0 && unaryOpPrec >= parentPrec) {
+        var op = Next();
+        var operand = ParseExpr(unaryOpPrec);
+
+        left = new UnaryNode(op, operand);
+      }
+      else {
+        left = ParsePrim();
+      }
 
       while (true) {
-        var preced = Current.Kind.GetBinaryOpPreced();
+        var preced = Current.Kind.GetBinaryOpPrec();
 
-        if (preced == 0 || preced <= parentPreced)
+        if (preced == 0 || preced <= parentPrec)
           break;
 
         var op = Next();
