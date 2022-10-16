@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class Parser
+  internal sealed class Parser
   {
     private List<string> _diags = new List<string>();
     private readonly SyntaxToken[] _tokens;
@@ -29,6 +29,13 @@ namespace Minsk.CodeAnalysis
 
     public IEnumerable<string> Diags => _diags;
 
+    public SyntaxTree Parse() {
+      var expr = ParseExpr();
+      var eOF = Match(SyntaxKind.EOF);
+
+      return new SyntaxTree(_diags, expr, eOF);
+    }
+
     private SyntaxToken Peek(int offset = 0) {
       var idx = _pos + offset;
 
@@ -52,13 +59,6 @@ namespace Minsk.CodeAnalysis
 
       _diags.Add($"🎰️ Parser: Unexpected token <{Current.Kind}>, expected <{kind}>.");
       return new SyntaxToken(kind, Current.Pos, null, null);
-    }
-
-    public SyntaxTree Parse() {
-      var expr = ParseExpr();
-      var eOF = Match(SyntaxKind.EOF);
-
-      return new SyntaxTree(_diags, expr, eOF);
     }
 
     private ExpressionNode ParseExpr() {
@@ -103,7 +103,7 @@ namespace Minsk.CodeAnalysis
       }
 
       var num = Match(SyntaxKind.Number);
-      return new NumberNode(num);
+      return new LiteralNode(num);
     }
 
   }

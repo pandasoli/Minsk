@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class BinaryNode : ExpressionNode {
+  public sealed class BinaryNode : ExpressionNode {
     public BinaryNode(ExpressionNode left, SyntaxToken op, ExpressionNode right) {
       Left = left;
       Op = op;

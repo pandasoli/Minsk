@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Minsk.CodeAnalysis;
+﻿using Minsk.CodeAnalysis;
+
 
 namespace Minsk
 {
-  class Program
+  internal static class Program
   {
-    static void Main(string[] args) {
-      bool showTree = false;
+    private static void Main() {
+      var showTree = false;
+
+      Console.Write(" ");
+      Console.BackgroundColor = ConsoleColor.DarkGreen;
+      Console.ForegroundColor = ConsoleColor.Black;
+      Console.Write("   Minsk Programming language <3   ");
+      Console.ResetColor();
+      Console.WriteLine("\n");
 
       while (true) {
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("> ");
+        Console.Write("•> ");
         Console.ResetColor();
 
         var line = Console.ReadLine();
@@ -51,7 +56,7 @@ namespace Minsk
           var res = eval.Evaluate();
 
           Console.ForegroundColor = ConsoleColor.DarkCyan;
-          Console.Write("< ");
+          Console.Write("<• ");
           Console.ResetColor();
           Console.Write(res);
 

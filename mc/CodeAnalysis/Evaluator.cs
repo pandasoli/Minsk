@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class Evaluator
+  public sealed class Evaluator
   {
     private readonly ExpressionNode _root;
 
@@ -14,7 +14,7 @@ namespace Minsk.CodeAnalysis
     }
 
     private int EvalExpr(ExpressionNode node) {
-      if (node is NumberNode num)
+      if (node is LiteralNode num)
         return num.Token.Val != null ? (int) num.Token.Val : 0;
 
       if (node is BinaryNode bin) {
@@ -37,4 +37,5 @@ namespace Minsk.CodeAnalysis
       throw new Exception($"Unexpected node {node.Kind}.");
     }
   }
+
 }

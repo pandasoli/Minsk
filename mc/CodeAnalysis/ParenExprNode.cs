@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class ParenExprNode : ExpressionNode
+  public sealed class ParenExprNode : ExpressionNode
   {
     public ParenExprNode(SyntaxToken open, ExpressionNode expr, SyntaxToken close) {
       Open = open;

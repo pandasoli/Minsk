@@ -1,9 +1,9 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class NumberNode : ExpressionNode {
-    public NumberNode(SyntaxToken num) {
-      Token = num;
+  public sealed class LiteralNode : ExpressionNode {
+    public LiteralNode(SyntaxToken lit) {
+      Token = lit;
     }
 
     public override SyntaxKind Kind => SyntaxKind.NumberNode;

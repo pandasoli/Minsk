@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class SyntaxTree {
+  public sealed class SyntaxTree {
     public SyntaxTree(IEnumerable<string> diags, ExpressionNode root, SyntaxToken eOF) {
       Diags = diags.ToArray();
       Root = root;

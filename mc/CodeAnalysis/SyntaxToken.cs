@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class SyntaxToken : SyntaxNode
+  public sealed class SyntaxToken : SyntaxNode
   {
     public SyntaxToken(SyntaxKind kind, int pos, string? text, object? val) {
       Kind = kind;
