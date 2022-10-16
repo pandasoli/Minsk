@@ -61,15 +61,17 @@ namespace Minsk.CodeAnalysis
       return new SyntaxToken(kind, Current.Pos, null, null);
     }
 
-    private ExpressionNode ParseExpr() {
-      var left = ParseTerm();
+    private ExpressionNode ParseExpr(int parentPreced = 0) {
+      var left = ParsePrim();
 
-      while (
-        Current.Kind == SyntaxKind.Plus ||
-        Current.Kind == SyntaxKind.Dash
-      ) {
+      while (true) {
+        var preced = GetBinaryOpPreced(Current.Kind);
+
+        if (preced == 0 || preced <= parentPreced)
+          break;
+
         var op = Next();
-        var right = ParseTerm();
+        var right = ParseExpr(preced);
 
         left = new BinaryNode(left, op, right);
       }
@@ -77,23 +79,22 @@ namespace Minsk.CodeAnalysis
       return left;
     }
 
-    private ExpressionNode ParseTerm() {
-      var left = ParseFactor();
+    private static int GetBinaryOpPreced(SyntaxKind kind) {
+      switch (kind) {
+        case SyntaxKind.Star:
+        case SyntaxKind.Slash:
+          return 2;
 
-      while (
-        Current.Kind == SyntaxKind.Star ||
-        Current.Kind == SyntaxKind.Slash
-      ) {
-        var op = Next();
-        var right = ParseFactor();
+        case SyntaxKind.Plus:
+        case SyntaxKind.Dash:
+          return 1;
 
-        left = new BinaryNode(left, op, right);
+        default:
+          return 0;
       }
-
-      return left;
     }
 
-    private ExpressionNode ParseFactor() {
+    private ExpressionNode ParsePrim() {
       if (Current.Kind == SyntaxKind.OpenParen) {
         var left = Next();
         var expr = ParseExpr();
