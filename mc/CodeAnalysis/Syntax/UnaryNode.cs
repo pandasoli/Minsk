@@ -1,5 +1,5 @@
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
   public sealed class UnaryNode : ExpressionNode {
     public UnaryNode(SyntaxToken op, ExpressionNode operand) {
