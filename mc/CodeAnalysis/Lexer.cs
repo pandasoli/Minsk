@@ -57,20 +57,19 @@ namespace Minsk.CodeAnalysis
         return new SyntaxToken(SyntaxKind.WhiteSpace, start, buff, null);
       }
 
-      if ("+-*/()".Contains(Current)) {
-        var kind =
-          Current == '+' ? SyntaxKind.Plus :
-          Current == '-' ? SyntaxKind.Dash :
-          Current == '*' ? SyntaxKind.Star :
-          Current == '*' ? SyntaxKind.Slash :
-          Current == '(' ? SyntaxKind.OpenParen :
-          SyntaxKind.CloseParen;
+      var kind =
+        Current == '+' ? SyntaxKind.Plus :
+        Current == '-' ? SyntaxKind.Dash :
+        Current == '*' ? SyntaxKind.Star :
+        Current == '*' ? SyntaxKind.Slash :
+        Current == '(' ? SyntaxKind.OpenParen :
+        Current == ')' ? SyntaxKind.CloseParen :
+        SyntaxKind.BadToken;
 
-        return new SyntaxToken(kind, _pos++, _text[_pos - 1].ToString(), null);
-      }
+      if (kind == SyntaxKind.BadToken)
+        _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
 
-      _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
-      return new SyntaxToken(SyntaxKind.BadToken, _pos++, _text[_pos - 1].ToString(), null);
+      return new SyntaxToken(kind, _pos++, _text[_pos - 1].ToString(), null);
     }
   }
 
