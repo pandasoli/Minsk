@@ -65,7 +65,7 @@ namespace Minsk.CodeAnalysis
       var left = ParsePrim();
 
       while (true) {
-        var preced = GetBinaryOpPreced(Current.Kind);
+        var preced = Current.Kind.GetBinaryOpPreced();
 
         if (preced == 0 || preced <= parentPreced)
           break;
@@ -77,21 +77,6 @@ namespace Minsk.CodeAnalysis
       }
 
       return left;
-    }
-
-    private static int GetBinaryOpPreced(SyntaxKind kind) {
-      switch (kind) {
-        case SyntaxKind.Star:
-        case SyntaxKind.Slash:
-          return 2;
-
-        case SyntaxKind.Plus:
-        case SyntaxKind.Dash:
-          return 1;
-
-        default:
-          return 0;
-      }
     }
 
     private ExpressionNode ParsePrim() {
