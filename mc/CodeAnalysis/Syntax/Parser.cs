@@ -104,7 +104,7 @@ namespace Minsk.CodeAnalysis.Syntax
         Current.Kind == SyntaxKind.FalseKeyword
       ) {
         var token = Next();
-        var val = Current.Kind == SyntaxKind.TrueKeyword;
+        var val = token.Kind == SyntaxKind.TrueKeyword;
         return new LiteralExprSyntax(token, val);
       }
 

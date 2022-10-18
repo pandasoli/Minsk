@@ -43,7 +43,7 @@ namespace Minsk.CodeAnalysis.Binding
       var boundOp = BindBinaryOp(syntax.Op.Kind, boundLeft.Type, boundRight.Type);
 
       if (boundOp == null) {
-        _diags.Add($"🌎️ Binder: Unary operator '{syntax.Op.Text}' is not defined for type {boundLeft.Type}' and '{boundRight.Type}.");
+        _diags.Add($"🌎️ Binder: Unary operator '{syntax.Op.Text}' is not defined for type '{boundLeft.Type}' and '{boundRight.Type}.");
         return boundLeft;
       }
 
@@ -52,31 +52,40 @@ namespace Minsk.CodeAnalysis.Binding
 
 
     private BoundUnaryOpKind? BindUnaryOp(SyntaxKind kind, Type operandType) {
-      if (operandType != typeof(int))
-        return null;
+      if (operandType == typeof(int))
+        switch (kind) {
+          case SyntaxKind.Plus: return BoundUnaryOpKind.Identity;
+          case SyntaxKind.Dash: return BoundUnaryOpKind.Negation;
+        }
 
-      switch (kind) {
-        case SyntaxKind.Plus: return BoundUnaryOpKind.Identity;
-        case SyntaxKind.Dash: return BoundUnaryOpKind.Negation;
+      if (operandType == typeof(bool))
+        switch (kind) {
+          case SyntaxKind.Bang: return BoundUnaryOpKind.LogicalNegation;
+        }
 
-        default:
-          throw new Exception($"🌎️ Binder: Unexpected unary operator {kind}.");
-      }
+      return null;
     }
 
     private BoundBinaryOpKind? BindBinaryOp(SyntaxKind kind, Type leftType, Type rightType) {
-      if (leftType != typeof(int) || rightType != typeof(int))
-        return null;
+      if (leftType == typeof(int) && rightType == typeof(int))
+        switch (kind)
+        {
+          case SyntaxKind.Plus:  return BoundBinaryOpKind.Add;
+          case SyntaxKind.Dash:  return BoundBinaryOpKind.Sub;
+          case SyntaxKind.Star:  return BoundBinaryOpKind.Mul;
+          case SyntaxKind.Slash: return BoundBinaryOpKind.Div;
+        }
 
-      switch (kind) {
-        case SyntaxKind.Plus:  return BoundBinaryOpKind.Add;
-        case SyntaxKind.Dash:  return BoundBinaryOpKind.Sub;
-        case SyntaxKind.Star:  return BoundBinaryOpKind.Mul;
-        case SyntaxKind.Slash: return BoundBinaryOpKind.Div;
+      if (leftType == typeof(bool) && rightType == typeof(bool))
+        switch (kind)
+        {
+          case SyntaxKind.AmpersandAmpersand:
+            return BoundBinaryOpKind.LogicalAnd;
+          case SyntaxKind.PipePipe:
+            return BoundBinaryOpKind.LogicalOr;
+        }
 
-        default:
-          throw new Exception($"🌎️ Binder: Unexpected binary operator {kind}.");
-      }
+      return null;
     }
 
   }

@@ -4,7 +4,9 @@ namespace Minsk.CodeAnalysis.Binding
     Add,
     Sub,
     Mul,
-    Div
+    Div,
+    LogicalAnd,
+    LogicalOr
   }
 
 }

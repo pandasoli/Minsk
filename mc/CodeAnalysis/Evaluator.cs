@@ -20,30 +20,34 @@ namespace Minsk.CodeAnalysis
         return num.Val;
 
       if (node is BoundBinaryExpr bin) {
-        var left = (int) EvalExpr(bin.Left);
-        var right = (int) EvalExpr(bin.Right);
+        var left = EvalExpr(bin.Left);
+        var right = EvalExpr(bin.Right);
 
         switch (bin.Op) {
-          case BoundBinaryOpKind.Add: return left + right;
-          case BoundBinaryOpKind.Sub: return left - right;
-          case BoundBinaryOpKind.Mul: return left * right;
-          case BoundBinaryOpKind.Div: return left / right;
+          case BoundBinaryOpKind.Add: return (int) left + (int) right;
+          case BoundBinaryOpKind.Sub: return (int) left - (int) right;
+          case BoundBinaryOpKind.Mul: return (int) left * (int) right;
+          case BoundBinaryOpKind.Div: return (int) left / (int) right;
+
+          case BoundBinaryOpKind.LogicalAnd: return (bool) left && (bool) right;
+          case BoundBinaryOpKind.LogicalOr:  return (bool) left || (bool) right;
 
           default:
-            throw new Exception($"Unexpected binary operator {bin.Op}.");
+            throw new Exception($"🛰️ Evaluator: unexpected binary operator {bin.Op}.");
         }
       }
 
       if (node is BoundUnaryExpr unary) {
-        var operand = (int) EvalExpr(unary.Operand);
+        var operand = EvalExpr(unary.Operand);
 
-        if (unary.Op == BoundUnaryOpKind.Identity) return operand;
-        if (unary.Op == BoundUnaryOpKind.Negation) return -operand;
+        if (unary.Op == BoundUnaryOpKind.Identity) return (int) operand;
+        if (unary.Op == BoundUnaryOpKind.Negation) return -(int) operand;
+        if (unary.Op == BoundUnaryOpKind.LogicalNegation) return !(bool) operand;
 
-        throw new Exception($"Unexpected unary operator {unary.Op}.");
+        throw new Exception($"🛰️ Evaluator: unexpected unary operator {unary.Op}.");
       }
 
-      throw new Exception($"Unexpected node {node.Kind}.");
+      throw new Exception($"🛰️ Evaluator: unexpected node {node.Kind}.");
     }
   }
 

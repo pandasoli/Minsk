@@ -13,13 +13,17 @@ namespace Minsk.CodeAnalysis.Syntax
 
     public IEnumerable<string> Diags => _diags;
 
-    private char Current {
-      get {
-        if (_pos >= _text.Length)
-          return '\0';
+    private char Current => Peek();
+    private char Lookhead => Peek(1);
 
-        return _text[_pos];
-      }
+    private char Peek(int offset = 0)
+    {
+      var idx = _pos + offset;
+
+      if (idx >= _text.Length)
+        return '\0';
+
+      return _text[idx];
     }
 
     private void Next() {
@@ -39,13 +43,13 @@ namespace Minsk.CodeAnalysis.Syntax
 
         var len = _pos - start;
         var buff = _text.Substring(start, len);
+
         if (!int.TryParse(buff, out var res))
-          _diags.Add($"The number {_text} is not a valid Int32.");
+          _diags.Add($"🔨️ Lexer: the number {_text} is not a valid Int32.");
 
         return new SyntaxToken(SyntaxKind.Number, start, buff, res);
       }
-
-      if (char.IsWhiteSpace(Current)) {
+      else if (char.IsWhiteSpace(Current)) {
         var start = _pos;
 
         while (char.IsWhiteSpace(Current))
@@ -56,8 +60,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
         return new SyntaxToken(SyntaxKind.WhiteSpace, start, buff, null);
       }
-
-      if (char.IsLetter(Current)) {
+      else if (char.IsLetter(Current)) {
         var start = _pos;
 
         while (char.IsLetter(Current))
@@ -65,24 +68,47 @@ namespace Minsk.CodeAnalysis.Syntax
 
         var len = _pos - start;
         var buff = _text.Substring(start, len);
-        var kind_ = SyntaxFacts.GetKeywordKind(buff);
+        var kind = SyntaxFacts.GetKeywordKind(buff);
 
-        return new SyntaxToken(kind_, start, buff, null);
+        return new SyntaxToken(kind, start, buff, null);
       }
+      else {
+        var kind = SyntaxKind.BadToken;
+        var pos = _pos + 1;
+        var buff = _text[_pos - 1].ToString();
 
-      var kind =
-        Current == '+' ? SyntaxKind.Plus :
-        Current == '-' ? SyntaxKind.Dash :
-        Current == '*' ? SyntaxKind.Star :
-        Current == '*' ? SyntaxKind.Slash :
-        Current == '(' ? SyntaxKind.OpenParen :
-        Current == ')' ? SyntaxKind.CloseParen :
-        SyntaxKind.BadToken;
+        switch (Current) {
+          case '+': kind = SyntaxKind.Plus;       break;
+          case '-': kind = SyntaxKind.Dash;       break;
+          case '*': kind = SyntaxKind.Star;       break;
+          case '/': kind = SyntaxKind.Slash;      break;
+          case '(': kind = SyntaxKind.OpenParen;  break;
+          case ')': kind = SyntaxKind.CloseParen; break;
+          case '!': kind = SyntaxKind.Bang;       break;
+          case '&':
+            if (Lookhead == '&') {
+              kind = SyntaxKind.AmpersandAmpersand;
+              pos++;
+              buff = "&&";
+            }
 
-      if (kind == SyntaxKind.BadToken)
-        _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
+            break;
+          case '|':
+            if (Lookhead == '|') {
+              kind = SyntaxKind.PipePipe;
+              pos++;
+              buff = "||";
+            }
 
-      return new SyntaxToken(kind, _pos++, _text[_pos - 1].ToString(), null);
+            break;
+        }
+
+        if (kind == SyntaxKind.BadToken)
+          _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
+
+        _pos = pos;
+        return new SyntaxToken(kind, _pos, buff, null);
+      }
     }
   }
 

@@ -7,10 +7,16 @@ namespace Minsk.CodeAnalysis.Syntax
       switch (kind) {
         case SyntaxKind.Star:
         case SyntaxKind.Slash:
-          return 2;
+          return 4;
 
         case SyntaxKind.Plus:
         case SyntaxKind.Dash:
+          return 3;
+
+        case SyntaxKind.AmpersandAmpersand:
+          return 2;
+
+        case SyntaxKind.PipePipe:
           return 1;
 
         default:
@@ -22,7 +28,8 @@ namespace Minsk.CodeAnalysis.Syntax
       switch (kind) {
         case SyntaxKind.Plus:
         case SyntaxKind.Dash:
-          return 3;
+        case SyntaxKind.Bang:
+          return 5;
 
         default:
           return 0;
@@ -31,7 +38,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
     public static SyntaxKind GetKeywordKind(string text) {
       switch (text) {
-        case "true": return SyntaxKind.TrueKeyword;
+        case "true":  return SyntaxKind.TrueKeyword;
         case "false": return SyntaxKind.FalseKeyword;
 
         default:

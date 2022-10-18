@@ -15,6 +15,10 @@ namespace Minsk.CodeAnalysis.Syntax
     Star,
     Slash,
 
+    Bang,
+    AmpersandAmpersand,
+    PipePipe,
+
     OpenParen,
     CloseParen,
 
