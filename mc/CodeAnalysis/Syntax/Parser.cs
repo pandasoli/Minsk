@@ -92,11 +92,20 @@ namespace Minsk.CodeAnalysis.Syntax
 
     private ExpressionNode ParsePrim() {
       if (Current.Kind == SyntaxKind.OpenParen) {
-        var left = Next();
+        // var left = Next();
         var expr = ParseExpr();
-        var right = Match(SyntaxKind.CloseParen);
+        /* var right =  */ Match(SyntaxKind.CloseParen);
 
-        return new ParenExprNode(left, expr, right);
+        return expr /* new ParenExprNode(left, expr, right) */;
+      }
+
+      if (
+        Current.Kind == SyntaxKind.TrueKeyword ||
+        Current.Kind == SyntaxKind.FalseKeyword
+      ) {
+        var token = Next();
+        var val = Current.Kind == SyntaxKind.TrueKeyword;
+        return new LiteralExprSyntax(token, val);
       }
 
       var num = Match(SyntaxKind.Number);

@@ -9,6 +9,7 @@ namespace Minsk.CodeAnalysis.Syntax
     WhiteSpace,
 
     Number,
+    Identifier,
     Plus,
     Dash,
     Star,
@@ -16,6 +17,10 @@ namespace Minsk.CodeAnalysis.Syntax
 
     OpenParen,
     CloseParen,
+
+    // Keyword
+    TrueKeyword,
+    FalseKeyword,
 
     // Nodes
     LiteralExpr,

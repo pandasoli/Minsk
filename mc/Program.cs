@@ -1,4 +1,5 @@
 ﻿using Minsk.CodeAnalysis;
+using Minsk.CodeAnalysis.Binding;
 using Minsk.CodeAnalysis.Syntax;
 
 
@@ -9,17 +10,10 @@ namespace Minsk
     private static void Main() {
       var showTree = false;
 
-      Console.Write(" ");
-      Console.BackgroundColor = ConsoleColor.DarkGreen;
-      Console.ForegroundColor = ConsoleColor.Black;
-      Console.Write("   Minsk Programming language <3   ");
-      Console.ResetColor();
-      Console.WriteLine("\n");
+      Console.WriteLine(" \x1b[42m\x1b[30m   Minsk Programming language <3   \x1b[0m\n");
 
       while (true) {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("•> ");
-        Console.ResetColor();
+        Console.Write("\x1b[36m>\x1b[0m ");
 
         var line = Console.ReadLine();
 
@@ -39,26 +33,28 @@ namespace Minsk
         }
 
         var ast = SyntaxTree.Parse(line);
+        var binder = new Binder();
+        var boundExpr = binder.BindExpr(ast.Root);
+
+        var diags = ast.Diags.Concat(binder.Diags).ToArray();
 
         if (showTree)
           PrettyPrint(ast.Root);
 
-        if (ast.Diags.Any()) {
+        if (diags.Any()) {
           Console.ForegroundColor = ConsoleColor.Red;
 
-          foreach (var diag in ast.Diags) {
+          foreach (var diag in diags) {
             Console.WriteLine($"  {diag}  ");
           }
 
           Console.ResetColor();
         }
         else {
-          var eval = new Evaluator(ast.Root);
+          var eval = new Evaluator(boundExpr);
           var res = eval.Evaluate();
 
-          Console.ForegroundColor = ConsoleColor.DarkCyan;
-          Console.Write("<• ");
-          Console.ResetColor();
+          Console.Write("\x1b[2;36m<\x1b[0m ");
           Console.Write(res);
 
           Console.WriteLine();
@@ -66,7 +62,7 @@ namespace Minsk
       }
     }
 
-    static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true) {
+    static void PrettyPrint(ExprSyntax node, string indent = "", bool isLast = true) {
       var marker = isLast ? "╰─ " : "├─ ";
 
       Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -92,5 +88,6 @@ namespace Minsk
       foreach (var child in node.GetChildren())
         PrettyPrint(child, indent, child == last);
     }
+
   }
 }

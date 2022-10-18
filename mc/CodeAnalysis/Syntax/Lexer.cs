@@ -57,6 +57,19 @@ namespace Minsk.CodeAnalysis.Syntax
         return new SyntaxToken(SyntaxKind.WhiteSpace, start, buff, null);
       }
 
+      if (char.IsLetter(Current)) {
+        var start = _pos;
+
+        while (char.IsLetter(Current))
+          Next();
+
+        var len = _pos - start;
+        var buff = _text.Substring(start, len);
+        var kind_ = SyntaxFacts.GetKeywordKind(buff);
+
+        return new SyntaxToken(kind_, start, buff, null);
+      }
+
       var kind =
         Current == '+' ? SyntaxKind.Plus :
         Current == '-' ? SyntaxKind.Dash :

@@ -1,49 +1,47 @@
 using Minsk.CodeAnalysis.Syntax;
+using Minsk.CodeAnalysis.Binding;
 
 namespace Minsk.CodeAnalysis
 {
-  public sealed class Evaluator
+  internal sealed class Evaluator
   {
-    private readonly ExpressionNode _root;
+    private readonly BoundExpr _root;
 
-    public Evaluator(ExpressionNode root) {
+    public Evaluator(BoundExpr root) {
       _root = root;
     }
 
-    public int Evaluate() {
+    public object Evaluate() {
       return EvalExpr(_root);
     }
 
-    private int EvalExpr(ExpressionNode node) {
-      if (node is LiteralNode num)
-        return num.Token.Val != null ? (int) num.Token.Val : 0;
+    private object EvalExpr(BoundExpr node) {
+      if (node is BoundLiteralExpr num)
+        return num.Val;
 
-      if (node is BinaryNode bin) {
-        var left = EvalExpr(bin.Left);
-        var right = EvalExpr(bin.Right);
+      if (node is BoundBinaryExpr bin) {
+        var left = (int) EvalExpr(bin.Left);
+        var right = (int) EvalExpr(bin.Right);
 
-        switch (bin.Op.Kind) {
-          case SyntaxKind.Plus: return left + right;
-          case SyntaxKind.Dash: return left - right;
-          case SyntaxKind.Star: return left * right;
-          case SyntaxKind.Slash: return left / right;
+        switch (bin.Op) {
+          case BoundBinaryOpKind.Add: return left + right;
+          case BoundBinaryOpKind.Sub: return left - right;
+          case BoundBinaryOpKind.Mul: return left * right;
+          case BoundBinaryOpKind.Div: return left / right;
 
           default:
-            throw new Exception($"Unexpected binary operator {bin.Op.Kind}.");
+            throw new Exception($"Unexpected binary operator {bin.Op}.");
         }
       }
 
-      if (node is UnaryNode unary) {
-        var operand = EvalExpr(unary.Operand);
+      if (node is BoundUnaryExpr unary) {
+        var operand = (int) EvalExpr(unary.Operand);
 
-        if (unary.Op.Kind == SyntaxKind.Plus) return operand;
-        if (unary.Op.Kind == SyntaxKind.Dash) return -operand;
+        if (unary.Op == BoundUnaryOpKind.Identity) return operand;
+        if (unary.Op == BoundUnaryOpKind.Negation) return -operand;
 
-        throw new Exception($"Unexpected unary operator {unary.Op.Kind}.");
+        throw new Exception($"Unexpected unary operator {unary.Op}.");
       }
-
-      if (node is ParenExprNode par)
-        return EvalExpr(par.Expr);
 
       throw new Exception($"Unexpected node {node.Kind}.");
     }
