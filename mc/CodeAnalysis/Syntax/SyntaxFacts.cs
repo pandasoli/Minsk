@@ -7,10 +7,14 @@ namespace Minsk.CodeAnalysis.Syntax
       switch (kind) {
         case SyntaxKind.Star:
         case SyntaxKind.Slash:
-          return 4;
+          return 5;
 
         case SyntaxKind.Plus:
         case SyntaxKind.Dash:
+          return 4;
+
+        case SyntaxKind.EqualsEquals:
+        case SyntaxKind.BangEquals:
           return 3;
 
         case SyntaxKind.AmpersandAmpersand:
@@ -29,7 +33,7 @@ namespace Minsk.CodeAnalysis.Syntax
         case SyntaxKind.Plus:
         case SyntaxKind.Dash:
         case SyntaxKind.Bang:
-          return 5;
+          return 6;
 
         default:
           return 0;

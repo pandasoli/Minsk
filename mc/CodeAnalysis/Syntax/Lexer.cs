@@ -84,7 +84,6 @@ namespace Minsk.CodeAnalysis.Syntax
           case '/': kind = SyntaxKind.Slash;      break;
           case '(': kind = SyntaxKind.OpenParen;  break;
           case ')': kind = SyntaxKind.CloseParen; break;
-          case '!': kind = SyntaxKind.Bang;       break;
           case '&':
             if (Lookhead == '&') {
               kind = SyntaxKind.AmpersandAmpersand;
@@ -98,6 +97,25 @@ namespace Minsk.CodeAnalysis.Syntax
               kind = SyntaxKind.PipePipe;
               pos++;
               buff = "||";
+            }
+
+            break;
+          case '=':
+            if (Lookhead == '=') {
+              kind = SyntaxKind.EqualsEquals;
+              pos++;
+              buff = "==";
+            }
+
+            break;
+          case '!':
+            if (Lookhead == '=') {
+              kind = SyntaxKind.BangEquals;
+              pos++;
+              buff = "==";
+            }
+            else {
+              kind = SyntaxKind.Bang;
             }
 
             break;

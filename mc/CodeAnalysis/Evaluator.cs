@@ -32,6 +32,9 @@ namespace Minsk.CodeAnalysis
           case BoundBinaryOpKind.LogicalAnd: return (bool) left && (bool) right;
           case BoundBinaryOpKind.LogicalOr:  return (bool) left || (bool) right;
 
+          case BoundBinaryOpKind.Equals:    return  Equals(left, right);
+          case BoundBinaryOpKind.NotEquals: return !Equals(left, right);
+
           default:
             throw new Exception($"🛰️ Evaluator: unexpected binary operator {bin.Op}.");
         }

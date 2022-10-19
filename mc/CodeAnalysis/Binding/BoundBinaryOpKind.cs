@@ -6,7 +6,9 @@ namespace Minsk.CodeAnalysis.Binding
     Mul,
     Div,
     LogicalAnd,
-    LogicalOr
+    LogicalOr,
+    Equals,
+    NotEquals
   }
 
 }

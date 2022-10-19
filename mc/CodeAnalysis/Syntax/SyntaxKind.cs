@@ -19,6 +19,9 @@ namespace Minsk.CodeAnalysis.Syntax
     AmpersandAmpersand,
     PipePipe,
 
+    EqualsEquals,
+    BangEquals,
+
     OpenParen,
     CloseParen,
 

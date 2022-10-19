@@ -5,6 +5,7 @@ namespace Minsk.CodeAnalysis.Binding
   internal sealed class BoundBinaryOp
   {
     private BoundBinaryOp(SyntaxKind syntax, BoundBinaryOpKind kind, Type type) : this(syntax, kind, type, type, type) {}
+    private BoundBinaryOp(SyntaxKind syntax, BoundBinaryOpKind kind, Type operand, Type res) : this(syntax, kind, operand, operand, res) {}
     private BoundBinaryOp(SyntaxKind syntax, BoundBinaryOpKind kind, Type left, Type right, Type res) {
       Syntax = syntax;
       Kind = kind;
@@ -24,6 +25,11 @@ namespace Minsk.CodeAnalysis.Binding
       new BoundBinaryOp(SyntaxKind.Dash, BoundBinaryOpKind.Sub, typeof(int)),
       new BoundBinaryOp(SyntaxKind.Star, BoundBinaryOpKind.Mul, typeof(int)),
       new BoundBinaryOp(SyntaxKind.Slash, BoundBinaryOpKind.Div, typeof(int)),
+
+      new BoundBinaryOp(SyntaxKind.EqualsEquals, BoundBinaryOpKind.Equals, typeof(int), typeof(bool)),
+      new BoundBinaryOp(SyntaxKind.BangEquals, BoundBinaryOpKind.NotEquals, typeof(int), typeof(bool)),
+      new BoundBinaryOp(SyntaxKind.EqualsEquals, BoundBinaryOpKind.Equals, typeof(bool)),
+      new BoundBinaryOp(SyntaxKind.BangEquals, BoundBinaryOpKind.NotEquals, typeof(bool)),
 
       new BoundBinaryOp(SyntaxKind.AmpersandAmpersand, BoundBinaryOpKind.LogicalAnd, typeof(bool)),
       new BoundBinaryOp(SyntaxKind.PipePipe, BoundBinaryOpKind.LogicalOr, typeof(bool))
