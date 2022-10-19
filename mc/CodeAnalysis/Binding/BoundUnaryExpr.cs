@@ -2,12 +2,12 @@ namespace Minsk.CodeAnalysis.Binding
 {
   internal sealed class BoundUnaryExpr : BoundExpr
   {
-    public BoundUnaryExpr(BoundUnaryOpKind op, BoundExpr operand) {
+    public BoundUnaryExpr(BoundUnaryOp op, BoundExpr operand) {
       Op = op;
       Operand = operand;
     }
 
-    public BoundUnaryOpKind Op { get; }
+    public BoundUnaryOp Op { get; }
     public BoundExpr Operand { get; }
 
     public override Type Type => Operand.Type;

@@ -75,7 +75,7 @@ namespace Minsk.CodeAnalysis.Syntax
       else {
         var kind = SyntaxKind.BadToken;
         var pos = _pos + 1;
-        var buff = _text[_pos - 1].ToString();
+        var buff = _text[_pos /* -1 */].ToString();
 
         switch (Current) {
           case '+': kind = SyntaxKind.Plus;       break;

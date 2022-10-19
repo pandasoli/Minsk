@@ -23,7 +23,7 @@ namespace Minsk.CodeAnalysis
         var left = EvalExpr(bin.Left);
         var right = EvalExpr(bin.Right);
 
-        switch (bin.Op) {
+        switch (bin.Op.Kind) {
           case BoundBinaryOpKind.Add: return (int) left + (int) right;
           case BoundBinaryOpKind.Sub: return (int) left - (int) right;
           case BoundBinaryOpKind.Mul: return (int) left * (int) right;
@@ -40,11 +40,14 @@ namespace Minsk.CodeAnalysis
       if (node is BoundUnaryExpr unary) {
         var operand = EvalExpr(unary.Operand);
 
-        if (unary.Op == BoundUnaryOpKind.Identity) return (int) operand;
-        if (unary.Op == BoundUnaryOpKind.Negation) return -(int) operand;
-        if (unary.Op == BoundUnaryOpKind.LogicalNegation) return !(bool) operand;
+        switch (unary.Op.Kind) {
+          case BoundUnaryOpKind.Identity: return (int) operand;
+          case BoundUnaryOpKind.Negation: return -(int) operand;
+          case BoundUnaryOpKind.LogicalNegation: return !(bool) operand;
 
-        throw new Exception($"🛰️ Evaluator: unexpected unary operator {unary.Op}.");
+          default:
+            throw new Exception($"🛰️ Evaluator: unexpected unary operator {unary.Op}.");
+        }
       }
 
       throw new Exception($"🛰️ Evaluator: unexpected node {node.Kind}.");
