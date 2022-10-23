@@ -1,0 +1,12 @@
+/home/panda/Classes/minsk/Minsk/bin/Debug/net6.0/Minsk.deps.json
+/home/panda/Classes/minsk/Minsk/bin/Debug/net6.0/Minsk.dll
+/home/panda/Classes/minsk/Minsk/bin/Debug/net6.0/Minsk.pdb
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.csproj.AssemblyReference.cache
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.GeneratedMSBuildEditorConfig.editorconfig
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.AssemblyInfoInputs.cache
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.AssemblyInfo.cs
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.csproj.CoreCompileInputs.cache
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.dll
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/refint/Minsk.dll
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/Minsk.pdb
+/home/panda/Classes/minsk/Minsk/obj/Debug/net6.0/ref/Minsk.dll
