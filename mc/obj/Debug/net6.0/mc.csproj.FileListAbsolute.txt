@@ -13,3 +13,6 @@
 /home/panda/Classes/minsk/mc/obj/Debug/net6.0/mc.pdb
 /home/panda/Classes/minsk/mc/obj/Debug/net6.0/mc.genruntimeconfig.cache
 /home/panda/Classes/minsk/mc/obj/Debug/net6.0/ref/mc.dll
+/home/panda/Classes/minsk/mc/bin/Debug/net6.0/Minsk.dll
+/home/panda/Classes/minsk/mc/bin/Debug/net6.0/Minsk.pdb
+/home/panda/Classes/minsk/mc/obj/Debug/net6.0/mc.csproj.CopyComplete
