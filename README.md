@@ -7,3 +7,9 @@
 <br/>
 
 > [Playlist](https://youtube.com/playlist?list=PLRAdsfhKI4OWNOSfS7EUu5GRAVmze1t2y)
+
+<br/>
+
+### Notes
+
+\- Make a release after every episode
