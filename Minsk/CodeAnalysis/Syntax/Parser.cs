@@ -61,8 +61,8 @@ namespace Minsk.CodeAnalysis.Syntax
       return new SyntaxToken(kind, Current.Pos, null, null);
     }
 
-    private ExpressionNode ParseExpr(int parentPrec = 0) {
-      ExpressionNode left;
+    private ExprSyntax ParseExpr(int parentPrec = 0) {
+      ExprSyntax left;
       var unaryOpPrec = Current.Kind.GetUnaryOpPreced();
 
       if (unaryOpPrec != 0 && unaryOpPrec >= parentPrec) {
@@ -90,7 +90,7 @@ namespace Minsk.CodeAnalysis.Syntax
       return left;
     }
 
-    private ExpressionNode ParsePrim() {
+    private ExprSyntax ParsePrim() {
       if (Current.Kind == SyntaxKind.OpenParen) {
         // var left = Next();
         var expr = ParseExpr();

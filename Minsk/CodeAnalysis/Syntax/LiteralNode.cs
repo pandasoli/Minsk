@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  public sealed class LiteralExprSyntax : ExpressionNode {
+  public sealed class LiteralExprSyntax : ExprSyntax {
     public LiteralExprSyntax(SyntaxToken lit) : this(lit, lit.Val) {}
     public LiteralExprSyntax(SyntaxToken lit, object? val) {
       Token = lit;
