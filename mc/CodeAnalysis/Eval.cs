@@ -1,5 +1,4 @@
 using Minsk.CodeAnalysis.Binding;
-using Minsk.CodeAnalysis.Syntax;
 
 
 namespace Minsk.CodeAnalysis
@@ -23,9 +22,9 @@ namespace Minsk.CodeAnalysis
       if (node is BoundUnaryExpr unary) {
         var operand = EvalExpr(unary.Operand);
 
-        if (unary.Op == BoundUnaryOpKind.Identity) return  (int) operand;
-        if (unary.Op == BoundUnaryOpKind.Neg)      return -(int) operand;
-        if (unary.Op == BoundUnaryOpKind.LgcNeg)   return !(bool) operand;
+        if (unary.Op.Kind == BoundUnaryOpKind.Identity) return  (int) operand;
+        if (unary.Op.Kind == BoundUnaryOpKind.Neg)      return -(int) operand;
+        if (unary.Op.Kind == BoundUnaryOpKind.LgcNeg)   return !(bool) operand;
 
         throw new Exception($"Unexpected unary operator {unary.Op}.");
       }
@@ -34,7 +33,7 @@ namespace Minsk.CodeAnalysis
         var left = EvalExpr(bin.Left);
         var right = EvalExpr(bin.Right);
 
-        switch (bin.Op) {
+        switch (bin.Op.Kind) {
           case BoundBinaryOpKind.Add: return (int) left + (int) right;
           case BoundBinaryOpKind.Sub: return (int) left - (int) right;
           case BoundBinaryOpKind.Mul: return (int) left * (int) right;
