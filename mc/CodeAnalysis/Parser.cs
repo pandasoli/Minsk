@@ -61,39 +61,23 @@ namespace Minsk.CodeAnalysis
       return new SyntaxTree(_diags, expr, eOF);
     }
 
-    private ExprSyntax ParseExpr() {
-      var left = ParseTerm();
+    private ExprSyntax ParseExpr(int parentPrece = 0) {
+      var left = ParsePrimExpr();
 
-      while (
-        Current.Kind == SyntaxKind.Plus ||
-        Current.Kind == SyntaxKind.Dash
-      ) {
+      while (true) {
+        var prece = Current.Kind.GetBinaryOpPrece();
+        if (prece == 0 || prece <= parentPrece)
+          break;
+
         var op = Next();
-        var right = ParseTerm();
-
+        var right = ParseExpr(prece);
         left = new BinaryExpr(left, op, right);
       }
 
       return left;
     }
 
-    private ExprSyntax ParseTerm() {
-      var left = ParseFactor();
-
-      while (
-        Current.Kind == SyntaxKind.Star ||
-        Current.Kind == SyntaxKind.Slash
-      ) {
-        var op = Next();
-        var right = ParseFactor();
-
-        left = new BinaryExpr(left, op, right);
-      }
-
-      return left;
-    }
-
-    private ExprSyntax ParseFactor() {
+    private ExprSyntax ParsePrimExpr() {
       if (Current.Kind == SyntaxKind.OpenParen) {
         var left = Next();
         var expr = ParseExpr();
@@ -103,7 +87,7 @@ namespace Minsk.CodeAnalysis
       }
 
       var num = Match(SyntaxKind.Number);
-      return new NumberNode(num);
+      return new LitExpr(num);
     }
 
   }

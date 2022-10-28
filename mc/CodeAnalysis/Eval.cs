@@ -14,7 +14,7 @@ namespace Minsk.CodeAnalysis
     }
 
     private int EvalExpr(ExprSyntax node) {
-      if (node is NumberNode num)
+      if (node is LitExpr num)
         return num.Token.Val != null ? (int) num.Token.Val : 0;
 
       if (node is BinaryExpr bin) {
