@@ -5,12 +5,12 @@ namespace Minsk.CodeAnalysis
   {
     public static int GetBinaryOpPrece(this SyntaxKind kind) {
       switch (kind) {
-        case SyntaxKind.Star:
-        case SyntaxKind.Slash:
+        case SyntaxKind.StarTk:
+        case SyntaxKind.SlashTk:
           return 2;
 
-        case SyntaxKind.Plus:
-        case SyntaxKind.Dash:
+        case SyntaxKind.PlusTk:
+        case SyntaxKind.DashTk:
           return 1;
 
         default:

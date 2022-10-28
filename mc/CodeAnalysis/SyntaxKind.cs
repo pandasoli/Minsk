@@ -3,18 +3,18 @@ namespace Minsk.CodeAnalysis
 {
   public enum SyntaxKind {
     // Tokens
-    BadToken,
-    EOF,
+    BadTokenTk,
+    EOFTk,
 
-    Number,
-    WhiteSpace,
+    NumberTk,
+    WhiteSpaceTk,
 
-    Plus,
-    Dash,
-    Star,
-    Slash,
-    OpenParen,
-    CloseParen,
+    PlusTk,
+    DashTk,
+    StarTk,
+    SlashTk,
+    OpenParenTk,
+    CloseParenTk,
 
     // Expressions
     BinaryExpr,

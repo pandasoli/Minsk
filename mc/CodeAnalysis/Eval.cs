@@ -22,10 +22,10 @@ namespace Minsk.CodeAnalysis
         var right = EvalExpr(bin.Right);
 
         switch (bin.Op.Kind) {
-          case SyntaxKind.Plus: return left + right;
-          case SyntaxKind.Dash: return left - right;
-          case SyntaxKind.Star: return left * right;
-          case SyntaxKind.Slash: return left / right;
+          case SyntaxKind.PlusTk: return left + right;
+          case SyntaxKind.DashTk: return left - right;
+          case SyntaxKind.StarTk: return left * right;
+          case SyntaxKind.SlashTk: return left / right;
           default:
             throw new Exception($"Unexpected binary operator {bin.Op.Kind}.");
         }

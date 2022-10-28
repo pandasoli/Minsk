@@ -16,12 +16,12 @@ namespace Minsk.CodeAnalysis
         token = lex.Lex();
 
         if (
-          token.Kind != SyntaxKind.WhiteSpace &&
-          token.Kind != SyntaxKind.BadToken
+          token.Kind != SyntaxKind.WhiteSpaceTk &&
+          token.Kind != SyntaxKind.BadTokenTk
         )
           tokens.Add(token);
       }
-      while (token.Kind != SyntaxKind.EOF);
+      while (token.Kind != SyntaxKind.EOFTk);
 
       _tokens = tokens.ToArray();
       _diags.AddRange(lex.Diags);
@@ -56,7 +56,7 @@ namespace Minsk.CodeAnalysis
 
     public SyntaxTree Parse() {
       var expr = ParseExpr();
-      var eOF = Match(SyntaxKind.EOF);
+      var eOF = Match(SyntaxKind.EOFTk);
 
       return new SyntaxTree(_diags, expr, eOF);
     }
@@ -78,15 +78,15 @@ namespace Minsk.CodeAnalysis
     }
 
     private ExprSyntax ParsePrimExpr() {
-      if (Current.Kind == SyntaxKind.OpenParen) {
+      if (Current.Kind == SyntaxKind.OpenParenTk) {
         var left = Next();
         var expr = ParseExpr();
-        var right = Match(SyntaxKind.CloseParen);
+        var right = Match(SyntaxKind.CloseParenTk);
 
         return new ParenExprNode(left, expr, right);
       }
 
-      var num = Match(SyntaxKind.Number);
+      var num = Match(SyntaxKind.NumberTk);
       return new LitExpr(num);
     }
 

@@ -29,7 +29,7 @@ namespace Minsk.CodeAnalysis
     public SyntaxToken Lex()
     {
       if (_pos >= _text.Length)
-        return new SyntaxToken(SyntaxKind.EOF, _pos, "\0", null);
+        return new SyntaxToken(SyntaxKind.EOFTk, _pos, "\0", null);
 
       var start = _pos;
 
@@ -42,7 +42,7 @@ namespace Minsk.CodeAnalysis
         if (!int.TryParse(buff, out var res))
           _diags.Add($"The number {_text} is not a valid Int32.");
 
-        return new SyntaxToken(SyntaxKind.Number, start, buff, res);
+        return new SyntaxToken(SyntaxKind.NumberTk, start, buff, res);
       }
 
       if (char.IsWhiteSpace(Current)) {
@@ -52,23 +52,23 @@ namespace Minsk.CodeAnalysis
         var len = _pos - start;
         var buff = _text.Substring(start, len);
 
-        return new SyntaxToken(SyntaxKind.WhiteSpace, start, buff, null);
+        return new SyntaxToken(SyntaxKind.WhiteSpaceTk, start, buff, null);
       }
 
       if ("+-*/()".Contains(Current)) {
         var kind =
-          Current == '+' ? SyntaxKind.Plus :
-          Current == '-' ? SyntaxKind.Dash :
-          Current == '*' ? SyntaxKind.Star :
-          Current == '*' ? SyntaxKind.Slash :
-          Current == '(' ? SyntaxKind.OpenParen :
-          SyntaxKind.CloseParen;
+          Current == '+' ? SyntaxKind.PlusTk :
+          Current == '-' ? SyntaxKind.DashTk :
+          Current == '*' ? SyntaxKind.StarTk :
+          Current == '*' ? SyntaxKind.SlashTk :
+          Current == '(' ? SyntaxKind.OpenParenTk :
+          SyntaxKind.CloseParenTk;
 
         return new SyntaxToken(kind, _pos++, _text[_pos - 1].ToString(), null);
       }
 
       _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
-      return new SyntaxToken(SyntaxKind.BadToken, _pos++, _text[_pos - 1].ToString(), null);
+      return new SyntaxToken(SyntaxKind.BadTokenTk, _pos++, _text[_pos - 1].ToString(), null);
     }
   }
 
