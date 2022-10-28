@@ -55,6 +55,17 @@ namespace Minsk.CodeAnalysis.Syntax
         return new SyntaxToken(SyntaxKind.WhiteSpaceTk, start, buff, null);
       }
 
+      if (char.IsLetter(Current)) {
+        while (char.IsLetter(Current))
+          Next();
+
+        var len = _pos - start;
+        var buff = _text.Substring(start, len);
+        var kind = SyntaxFacts.GetKeywordKind(buff);
+
+        return new SyntaxToken(kind, start, buff, null);
+      }
+
       if ("+-*/()".Contains(Current)) {
         var kind =
           Current == '+' ? SyntaxKind.PlusTk :

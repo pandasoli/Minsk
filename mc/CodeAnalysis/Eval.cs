@@ -12,16 +12,16 @@ namespace Minsk.CodeAnalysis
       _root = root;
     }
 
-    public int Evaluate() {
+    public object Evaluate() {
       return EvalExpr(_root);
     }
 
-    private int EvalExpr(BoundExpr node) {
+    private object EvalExpr(BoundExpr node) {
       if (node is BoundLitExpr num)
-        return (int) num.Val;
+        return num.Val;
 
       if (node is BoundUnaryExpr unary) {
-        var operand = EvalExpr(unary.Operand);
+        var operand = (int) EvalExpr(unary.Operand);
 
         if (unary.Op == BoundUnaryOpKind.Identity) return operand;
         if (unary.Op == BoundUnaryOpKind.Negation) return -operand;
@@ -30,8 +30,8 @@ namespace Minsk.CodeAnalysis
       }
 
       if (node is BoundBinaryExpr bin) {
-        var left = EvalExpr(bin.Left);
-        var right = EvalExpr(bin.Right);
+        var left = (int) EvalExpr(bin.Left);
+        var right = (int) EvalExpr(bin.Right);
 
         switch (bin.Op) {
           case BoundBinaryOpKind.Add: return left + right;

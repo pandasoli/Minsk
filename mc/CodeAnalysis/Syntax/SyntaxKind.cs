@@ -7,6 +7,7 @@ namespace Minsk.CodeAnalysis.Syntax
     EOFTk,
 
     NumberTk,
+    IdTk,
     WhiteSpaceTk,
 
     PlusTk,
@@ -20,7 +21,11 @@ namespace Minsk.CodeAnalysis.Syntax
     BinaryExpr,
     UnaryExpr,
     LitExpr,
-    ParenExpr
+    ParenExpr,
+
+    // Keywords
+    FalseKw,
+    TrueKw
   }
 
 }

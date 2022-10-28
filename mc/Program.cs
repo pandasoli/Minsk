@@ -43,7 +43,7 @@ namespace Minsk
         if (diags.Any()) {
           Console.ForegroundColor = ConsoleColor.Red;
 
-          foreach (var diag in ast.Diags) {
+          foreach (var diag in diags) {
             Console.WriteLine($"  {diag}  ");
           }
 

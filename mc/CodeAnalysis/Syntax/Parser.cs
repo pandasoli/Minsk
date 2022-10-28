@@ -88,16 +88,30 @@ namespace Minsk.CodeAnalysis.Syntax
     }
 
     private ExprSyntax ParsePrimExpr() {
-      if (Current.Kind == SyntaxKind.OpenParenTk) {
-        var left = Next();
-        var expr = ParseExpr();
-        var right = Match(SyntaxKind.CloseParenTk);
+      switch (Current.Kind) {
+        case SyntaxKind.OpenParenTk:
+          {
+            var left = Next();
+            var expr = ParseExpr();
+            var right = Match(SyntaxKind.CloseParenTk);
 
-        return new ParenExprNode(left, expr, right);
+            return new ParenExprNode(left, expr, right);
+          }
+
+        case SyntaxKind.TrueKw:
+        case SyntaxKind.FalseKw:
+          {
+            var token = Next();
+            var val = Current.Kind == SyntaxKind.TrueKw;
+            return new LitExpr(token, val);
+          }
+
+        default:
+          {
+            var num = Match(SyntaxKind.NumberTk);
+            return new LitExpr(num);
+          }
       }
-
-      var num = Match(SyntaxKind.NumberTk);
-      return new LitExpr(num);
     }
 
   }

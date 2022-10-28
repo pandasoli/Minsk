@@ -21,7 +21,7 @@ namespace Minsk.CodeAnalysis.Binding
     public IEnumerable<string> Diags => _diags;
 
     private BoundExpr BindLitExpr(LitExpr syntax) {
-      var val = syntax.Token.Val as int? ?? 0;
+      var val = syntax.Val ?? 0;
       return new BoundLitExpr(val);
     }
 
