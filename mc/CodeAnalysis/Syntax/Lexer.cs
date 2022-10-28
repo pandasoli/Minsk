@@ -13,18 +13,23 @@ namespace Minsk.CodeAnalysis.Syntax
 
     public IEnumerable<string> Diags => _diags;
 
-    private char Current {
-      get {
-        if (_pos >= _text.Length)
-          return '\0';
 
-        return _text[_pos];
-      }
+    private char Current => Peek();
+    private char Lookahead => Peek(1);
+
+    private char Peek(int offset = 0) {
+      var idx = _pos + offset;
+
+      if (idx >= _text.Length)
+        return '\0';
+
+      return _text[idx];
     }
 
     private void Next() {
       _pos++;
     }
+
 
     public SyntaxToken Lex()
     {
@@ -33,7 +38,8 @@ namespace Minsk.CodeAnalysis.Syntax
 
       var start = _pos;
 
-      if (char.IsDigit(Current)) {
+      if (char.IsDigit(Current))
+      {
         while (char.IsDigit(Current))
           Next();
 
@@ -44,8 +50,8 @@ namespace Minsk.CodeAnalysis.Syntax
 
         return new SyntaxToken(SyntaxKind.NumberTk, start, buff, res);
       }
-
-      if (char.IsWhiteSpace(Current)) {
+      else if (char.IsWhiteSpace(Current))
+      {
         while (char.IsWhiteSpace(Current))
           Next();
 
@@ -54,8 +60,8 @@ namespace Minsk.CodeAnalysis.Syntax
 
         return new SyntaxToken(SyntaxKind.WhiteSpaceTk, start, buff, null);
       }
-
-      if (char.IsLetter(Current)) {
+      else if (char.IsLetter(Current))
+      {
         while (char.IsLetter(Current))
           Next();
 
@@ -65,21 +71,61 @@ namespace Minsk.CodeAnalysis.Syntax
 
         return new SyntaxToken(kind, start, buff, null);
       }
+      else
+      {
+        var kind = SyntaxKind.BadTk;
+        var pos = _pos + 1;
+        var buff = _text[_pos].ToString();
 
-      if ("+-*/()".Contains(Current)) {
-        var kind =
-          Current == '+' ? SyntaxKind.PlusTk :
-          Current == '-' ? SyntaxKind.DashTk :
-          Current == '*' ? SyntaxKind.StarTk :
-          Current == '*' ? SyntaxKind.SlashTk :
-          Current == '(' ? SyntaxKind.OpenParenTk :
-          SyntaxKind.CloseParenTk;
+        switch (Current) {
+          case '+': kind = SyntaxKind.PlusTk;       break;
+          case '-': kind = SyntaxKind.DashTk;       break;
+          case '*': kind = SyntaxKind.StarTk;       break;
+          case '/': kind = SyntaxKind.SlashTk;      break;
+          case '(': kind = SyntaxKind.OpenParenTk;  break;
+          case ')': kind = SyntaxKind.CloseParenTk; break;
+          case '&':
+            if (Lookahead == '&') {
+              kind = SyntaxKind.ApsdApsdTk;
+              pos++;
+              buff = "&&";
+            }
 
-        return new SyntaxToken(kind, _pos++, _text[_pos - 1].ToString(), null);
+            break;
+          case '|':
+            if (Lookahead == '|') {
+              kind = SyntaxKind.PipePipeTk;
+              pos++;
+              buff = "||";
+            }
+
+            break;
+          case '=':
+            if (Lookahead == '=') {
+              kind = SyntaxKind.EqsEqsTk;
+              pos++;
+              buff = "==";
+            }
+
+            break;
+          case '!':
+            if (Lookahead == '=') {
+              kind = SyntaxKind.BangEqsTk;
+              pos++;
+              buff = "==";
+            }
+            else
+              kind = SyntaxKind.BangTk;
+
+            break;
+        }
+
+        if (kind == SyntaxKind.BadTk)
+          _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
+
+        _pos = pos;
+        return new SyntaxToken(kind, start, buff, null);
       }
-
-      _diags.Add($"🔨️ Lexer: bad character input: '{Current}'.");
-      return new SyntaxToken(SyntaxKind.BadTokenTk, _pos++, _text[_pos - 1].ToString(), null);
     }
   }
 

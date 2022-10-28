@@ -3,7 +3,7 @@ namespace Minsk.CodeAnalysis.Syntax
 {
   public enum SyntaxKind {
     // Tokens
-    BadTokenTk,
+    BadTk,
     EOFTk,
 
     NumberTk,
@@ -12,6 +12,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
     PlusTk,
     DashTk,
+    BangTk,
     StarTk,
     SlashTk,
     OpenParenTk,
@@ -25,7 +26,13 @@ namespace Minsk.CodeAnalysis.Syntax
 
     // Keywords
     FalseKw,
-    TrueKw
+    TrueKw,
+
+    // Comparators
+    ApsdApsdTk,
+    PipePipeTk,
+    EqsEqsTk,
+    BangEqsTk
   }
 
 }

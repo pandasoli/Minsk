@@ -17,7 +17,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
         if (
           token.Kind != SyntaxKind.WhiteSpaceTk &&
-          token.Kind != SyntaxKind.BadTokenTk
+          token.Kind != SyntaxKind.BadTk
         )
           tokens.Add(token);
       }
@@ -102,7 +102,7 @@ namespace Minsk.CodeAnalysis.Syntax
         case SyntaxKind.FalseKw:
           {
             var token = Next();
-            var val = Current.Kind == SyntaxKind.TrueKw;
+            var val = token.Kind == SyntaxKind.TrueKw;
             return new LitExpr(token, val);
           }
 

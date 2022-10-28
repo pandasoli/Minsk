@@ -51,31 +51,36 @@ namespace Minsk.CodeAnalysis.Binding
     }
 
     private BoundUnaryOpKind? BindUnaryOpKind(SyntaxKind kind, Type operandType) {
-      if (operandType != typeof(int))
-        return null;
+      if (operandType == typeof(int))
+        switch (kind) {
+          case SyntaxKind.PlusTk: return BoundUnaryOpKind.Identity;
+          case SyntaxKind.DashTk: return BoundUnaryOpKind.Neg;
+        }
 
-      switch (kind) {
-        case SyntaxKind.PlusTk: return BoundUnaryOpKind.Identity;
-        case SyntaxKind.DashTk: return BoundUnaryOpKind.Negation;
+      if (operandType == typeof(bool))
+        switch (kind) {
+          case SyntaxKind.BangTk: return BoundUnaryOpKind.LgcNeg;
+        }
 
-        default:
-          throw new Exception($"Unexpected unary operator {kind}.");
-      }
+      return null;
     }
 
     private BoundBinaryOpKind? BindBinaryOpKind(SyntaxKind kind, Type leftType, Type rightType) {
-      if (leftType != typeof(int) || rightType != typeof(int))
-        return null;
+      if (leftType == typeof(int) && rightType == typeof(int))
+        switch (kind) {
+          case SyntaxKind.PlusTk:  return BoundBinaryOpKind.Add;
+          case SyntaxKind.DashTk:  return BoundBinaryOpKind.Sub;
+          case SyntaxKind.StarTk:  return BoundBinaryOpKind.Mul;
+          case SyntaxKind.SlashTk: return BoundBinaryOpKind.Div;
+        }
 
-      switch (kind) {
-        case SyntaxKind.PlusTk:  return BoundBinaryOpKind.Add;
-        case SyntaxKind.DashTk:  return BoundBinaryOpKind.Sub;
-        case SyntaxKind.StarTk:  return BoundBinaryOpKind.Mul;
-        case SyntaxKind.SlashTk: return BoundBinaryOpKind.Div;
+      if (leftType == typeof(bool) && rightType == typeof(bool))
+        switch (kind) {
+          case SyntaxKind.ApsdApsdTk: return BoundBinaryOpKind.LgcAnd;
+          case SyntaxKind.PipePipeTk: return BoundBinaryOpKind.LgcOr;
+        }
 
-        default:
-          throw new Exception($"Unexpected binary operator {kind}.");
-      }
+      return null;
     }
   }
 
