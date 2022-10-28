@@ -62,7 +62,17 @@ namespace Minsk.CodeAnalysis
     }
 
     private ExprSyntax ParseExpr(int parentPrece = 0) {
-      var left = ParsePrimExpr();
+      ExprSyntax left;
+      var unaryOpPrece = Current.Kind.GetUnaryOpPrece();
+
+      if (unaryOpPrece != 0 && unaryOpPrece >= parentPrece) {
+        var op = Next();
+        var operand = ParseExpr(unaryOpPrece);
+        left = new UnaryExpr(op, operand);
+      }
+      else {
+        left = ParsePrimExpr();
+      }
 
       while (true) {
         var prece = Current.Kind.GetBinaryOpPrece();

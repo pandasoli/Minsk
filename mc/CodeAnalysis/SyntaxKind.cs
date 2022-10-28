@@ -18,6 +18,7 @@ namespace Minsk.CodeAnalysis
 
     // Expressions
     BinaryExpr,
+    UnaryExpr,
     LitExpr,
     ParenExpr
   }

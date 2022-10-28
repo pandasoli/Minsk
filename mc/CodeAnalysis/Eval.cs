@@ -17,6 +17,15 @@ namespace Minsk.CodeAnalysis
       if (node is LitExpr num)
         return num.Token.Val != null ? (int) num.Token.Val : 0;
 
+      if (node is UnaryExpr unary) {
+        var operand = EvalExpr(unary.Operand);
+
+        if (unary.Op.Kind == SyntaxKind.PlusTk) return operand;
+        if (unary.Op.Kind == SyntaxKind.DashTk) return -operand;
+
+        throw new Exception($"Unexpected unary operator {unary.Op.Kind}.");
+      }
+
       if (node is BinaryExpr bin) {
         var left = EvalExpr(bin.Left);
         var right = EvalExpr(bin.Right);
