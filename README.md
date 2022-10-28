@@ -1,15 +1,9 @@
 <div align='center'>
 
-# Building a Compiler
-`C#` - `Minsk` - `Compiler`
+# Minks
 
-<br/>
-<br/>
-
-> [Playlist](https://youtube.com/playlist?list=PLRAdsfhKI4OWNOSfS7EUu5GRAVmze1t2y)
+> Have you considered Minks? -- Worf, naming things.
 
 <br/>
 
-### Notes
-
-\- Make a release after every episode
+This repo is a compiler. More details follow.

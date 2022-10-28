@@ -1,7 +1,7 @@
 
-namespace Minsk.CodeAnalysis.Syntax
+namespace Minsk.CodeAnalysis
 {
-  public sealed class SyntaxToken : ExprSyntax
+  class SyntaxToken : SyntaxNode
   {
     public SyntaxToken(SyntaxKind kind, int pos, string? text, object? val) {
       Kind = kind;
@@ -14,10 +14,9 @@ namespace Minsk.CodeAnalysis.Syntax
     public int Pos { get; }
     public string? Text { get; }
     public object? Val { get; }
-    public TextSpan Span => new TextSpan(Pos, Text?.Length ?? 0);
 
-    public override IEnumerable<ExprSyntax> GetChildren() {
-      return Enumerable.Empty<ExprSyntax>();
+    public override IEnumerable<SyntaxNode> GetChildren() {
+      return Enumerable.Empty<SyntaxNode>();
     }
   }
 

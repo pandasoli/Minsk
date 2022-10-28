@@ -1,9 +1,9 @@
 
-namespace Minsk.CodeAnalysis.Syntax
+namespace Minsk.CodeAnalysis
 {
-  public sealed class ParenExprNode : ExprSyntax
+  sealed class ParenExprNode : ExpressionNode
   {
-    public ParenExprNode(SyntaxToken open, ExprSyntax expr, SyntaxToken close) {
+    public ParenExprNode(SyntaxToken open, ExpressionNode expr, SyntaxToken close) {
       Open = open;
       Expr = expr;
       Close = close;
@@ -12,10 +12,10 @@ namespace Minsk.CodeAnalysis.Syntax
     public override SyntaxKind Kind => SyntaxKind.ParenExpr;
 
     public SyntaxToken Open { get; }
-    public ExprSyntax Expr { get; }
+    public ExpressionNode Expr { get; }
     public SyntaxToken Close { get; }
 
-    public override IEnumerable<ExprSyntax> GetChildren()
+    public override IEnumerable<SyntaxNode> GetChildren()
     {
       yield return Open;
       yield return Expr;

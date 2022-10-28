@@ -1,30 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
-      "Minsk/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/Minsk.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Minsk.dll": {}
-        }
-      }
-    }
+    "net6.0": {}
   },
-  "libraries": {
-    "Minsk/1.0.0": {
-      "type": "project",
-      "path": "../Minsk/Minsk.csproj",
-      "msbuildProject": "../Minsk/Minsk.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": [
-      "Minsk >= 1.0.0"
-    ]
+    "net6.0": []
   },
   "packageFolders": {
     "/home/panda/.nuget/packages/": {}
@@ -50,11 +31,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "/home/panda/Classes/minsk/Minsk/Minsk.csproj": {
-              "projectPath": "/home/panda/Classes/minsk/Minsk/Minsk.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

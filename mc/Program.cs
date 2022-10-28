@@ -1,19 +1,19 @@
-﻿using Minsk.CodeAnalysis;
-using Minsk.CodeAnalysis.Binding;
-using Minsk.CodeAnalysis.Syntax;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Minsk.CodeAnalysis;
 
 namespace Minsk
 {
-  internal static class Program
+  class Program
   {
-    private static void Main() {
-      var showTree = false;
-
-      Console.WriteLine(" \x1b[42m\x1b[30m   Minsk Programming language <3   \x1b[0m\n");
+    static void Main(string[] args) {
+      bool showTree = false;
 
       while (true) {
-        Console.Write("\x1b[36m>\x1b[0m ");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("> ");
+        Console.ResetColor();
 
         var line = Console.ReadLine();
 
@@ -33,45 +33,34 @@ namespace Minsk
         }
 
         var ast = SyntaxTree.Parse(line);
-        var comp = new Compilation(ast);
-        var res = comp.Evaluate();
-
-        var diags = res.Diags;
 
         if (showTree)
           PrettyPrint(ast.Root);
 
-        if (diags.Any()) {
-          foreach (var diag in diags) {
-            Console.WriteLine();
+        if (ast.Diags.Any()) {
+          Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"  {diag}");
-            Console.ResetColor();
-
-            var prefix = line.Substring(0, diag.Span.Start);
-            var error = line.Substring(diag.Span.Start, diag.Span.Len);
-            var suffix = line.Substring(diag.Span.End);
-
-            Console.Write($"  ╰─ {prefix}");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(error);
-            Console.ResetColor();
-
-            Console.Write(suffix);
-            Console.WriteLine();
+          foreach (var diag in ast.Diags) {
+            Console.WriteLine($"  {diag}  ");
           }
 
-          Console.WriteLine();
+          Console.ResetColor();
         }
         else {
-          Console.WriteLine($"\x1b[2;36m<\x1b[0m {res.Val}");
+          var eval = new Evaluator(ast.Root);
+          var res = eval.Evaluate();
+
+          Console.ForegroundColor = ConsoleColor.DarkCyan;
+          Console.Write("< ");
+          Console.ResetColor();
+          Console.Write(res);
+
+          Console.WriteLine();
         }
       }
     }
 
-    static void PrettyPrint(ExprSyntax node, string indent = "", bool isLast = true) {
+    static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true) {
       var marker = isLast ? "╰─ " : "├─ ";
 
       Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -97,6 +86,5 @@ namespace Minsk
       foreach (var child in node.GetChildren())
         PrettyPrint(child, indent, child == last);
     }
-
   }
 }
