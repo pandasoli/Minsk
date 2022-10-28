@@ -42,6 +42,9 @@ namespace Minsk.CodeAnalysis
           case BoundBinaryOpKind.LgcAnd: return (bool) left && (bool) right;
           case BoundBinaryOpKind.LgcOr:  return (bool) left || (bool) right;
 
+          case BoundBinaryOpKind.Eqs:    return Equals(left, right);
+          case BoundBinaryOpKind.NotEqs: return !Equals(left, right);
+
           default:
             throw new Exception($"Unexpected binary operator {bin.Op}.");
         }

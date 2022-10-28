@@ -9,13 +9,13 @@ namespace Minsk.CodeAnalysis.Binding
       SyntaxKind = syntaxKind;
       Kind = kind;
       Operand = operand;
-      Res = res;
+      Type = res;
     }
 
     public SyntaxKind SyntaxKind { get; }
     public BoundUnaryOpKind Kind { get; }
     public Type Operand { get; }
-    public Type Res { get; }
+    public Type Type { get; }
 
     private static BoundUnaryOp[] _ops = {
       new BoundUnaryOp(SyntaxKind.BangTk, BoundUnaryOpKind.LgcNeg, typeof(bool)),

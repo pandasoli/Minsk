@@ -6,7 +6,9 @@ namespace Minsk.CodeAnalysis.Binding
     Mul,
     Div,
     LgcAnd,
-    LgcOr
+    LgcOr,
+    Eqs,
+    NotEqs
   }
 
 }

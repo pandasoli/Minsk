@@ -8,7 +8,7 @@ namespace Minsk.CodeAnalysis.Syntax
         case SyntaxKind.PlusTk:
         case SyntaxKind.DashTk:
         case SyntaxKind.BangTk:
-          return 5;
+          return 6;
 
         default:
           return 0;
@@ -19,10 +19,14 @@ namespace Minsk.CodeAnalysis.Syntax
       switch (kind) {
         case SyntaxKind.StarTk:
         case SyntaxKind.SlashTk:
-          return 4;
+          return 5;
 
         case SyntaxKind.PlusTk:
         case SyntaxKind.DashTk:
+          return 4;
+
+        case SyntaxKind.EqsEqsTk:
+        case SyntaxKind.BangEqsTk:
           return 3;
 
         case SyntaxKind.ApsdApsdTk:
