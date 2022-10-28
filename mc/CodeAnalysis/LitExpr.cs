@@ -6,7 +6,7 @@ namespace Minsk.CodeAnalysis
       Token = lit;
     }
 
-    public override SyntaxKind Kind => SyntaxKind.NumberExpr;
+    public override SyntaxKind Kind => SyntaxKind.LitExpr;
     public SyntaxToken Token { get; }
 
     public override IEnumerable<SyntaxNode> GetChildren() {
