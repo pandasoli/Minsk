@@ -1,4 +1,5 @@
 ﻿using Minsk.CodeAnalysis;
+using Minsk.CodeAnalysis.Binding;
 using Minsk.CodeAnalysis.Syntax;
 
 namespace Minsk
@@ -31,11 +32,15 @@ namespace Minsk
         }
 
         var ast = SyntaxTree.Parse(line);
+        var binder = new Binder();
+        var boundExpr = binder.BindExpr(ast.Root);
+
+        var diags = ast.Diags.Concat(binder.Diags).ToArray();
 
         if (showTree)
           PrettyPrint(ast.Root);
 
-        if (ast.Diags.Any()) {
+        if (diags.Any()) {
           Console.ForegroundColor = ConsoleColor.Red;
 
           foreach (var diag in ast.Diags) {
@@ -45,7 +50,7 @@ namespace Minsk
           Console.ResetColor();
         }
         else {
-          var eval = new Eval(ast.Root);
+          var eval = new Eval(boundExpr);
           var res = eval.Evaluate();
 
           Console.ForegroundColor = ConsoleColor.DarkCyan;
