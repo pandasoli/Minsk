@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class NumberNode : ExpressionNode {
+  sealed class NumberNode : ExprSyntax {
     public NumberNode(SyntaxToken num) {
       Token = num;
     }

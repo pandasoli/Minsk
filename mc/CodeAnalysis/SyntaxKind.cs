@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  enum SyntaxKind {
+  public enum SyntaxKind {
     Number,
     WhiteSpace,
     Plus,

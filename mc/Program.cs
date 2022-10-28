@@ -5,10 +5,10 @@ using Minsk.CodeAnalysis;
 
 namespace Minsk
 {
-  class Program
+  internal static class Program
   {
-    static void Main(string[] args) {
-      bool showTree = false;
+    private static void Main() {
+      var showTree = false;
 
       while (true) {
         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -47,7 +47,7 @@ namespace Minsk
           Console.ResetColor();
         }
         else {
-          var eval = new Evaluator(ast.Root);
+          var eval = new Eval(ast.Root);
           var res = eval.Evaluate();
 
           Console.ForegroundColor = ConsoleColor.DarkCyan;

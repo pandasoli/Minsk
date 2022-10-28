@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class Parser
+  internal sealed class Parser
   {
     private List<string> _diags = new List<string>();
     private readonly SyntaxToken[] _tokens;
@@ -61,7 +61,7 @@ namespace Minsk.CodeAnalysis
       return new SyntaxTree(_diags, expr, eOF);
     }
 
-    private ExpressionNode ParseExpr() {
+    private ExprSyntax ParseExpr() {
       var left = ParseTerm();
 
       while (
@@ -71,13 +71,13 @@ namespace Minsk.CodeAnalysis
         var op = Next();
         var right = ParseTerm();
 
-        left = new BinaryNode(left, op, right);
+        left = new BinaryExpr(left, op, right);
       }
 
       return left;
     }
 
-    private ExpressionNode ParseTerm() {
+    private ExprSyntax ParseTerm() {
       var left = ParseFactor();
 
       while (
@@ -87,13 +87,13 @@ namespace Minsk.CodeAnalysis
         var op = Next();
         var right = ParseFactor();
 
-        left = new BinaryNode(left, op, right);
+        left = new BinaryExpr(left, op, right);
       }
 
       return left;
     }
 
-    private ExpressionNode ParseFactor() {
+    private ExprSyntax ParseFactor() {
       if (Current.Kind == SyntaxKind.OpenParen) {
         var left = Next();
         var expr = ParseExpr();

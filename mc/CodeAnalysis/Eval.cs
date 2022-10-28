@@ -1,11 +1,11 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class Evaluator
+  public sealed class Eval
   {
-    private readonly ExpressionNode _root;
+    private readonly ExprSyntax _root;
 
-    public Evaluator(ExpressionNode root) {
+    public Eval(ExprSyntax root) {
       _root = root;
     }
 
@@ -13,11 +13,11 @@ namespace Minsk.CodeAnalysis
       return EvalExpr(_root);
     }
 
-    private int EvalExpr(ExpressionNode node) {
+    private int EvalExpr(ExprSyntax node) {
       if (node is NumberNode num)
         return num.Token.Val != null ? (int) num.Token.Val : 0;
 
-      if (node is BinaryNode bin) {
+      if (node is BinaryExpr bin) {
         var left = EvalExpr(bin.Left);
         var right = EvalExpr(bin.Right);
 

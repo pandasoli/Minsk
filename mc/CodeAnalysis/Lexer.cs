@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-  class Lexer
+  internal sealed class Lexer
   {
     private List<string> _diags = new List<string>();
     private readonly string _text;

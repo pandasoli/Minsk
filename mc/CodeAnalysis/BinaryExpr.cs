@@ -1,16 +1,16 @@
 
 namespace Minsk.CodeAnalysis
 {
-  sealed class BinaryNode : ExpressionNode {
-    public BinaryNode(ExpressionNode left, SyntaxToken op, ExpressionNode right) {
+  public sealed class BinaryExpr : ExprSyntax {
+    public BinaryExpr(ExprSyntax left, SyntaxToken op, ExprSyntax right) {
       Left = left;
       Op = op;
       Right = right;
     }
 
-    public ExpressionNode Left { get; }
+    public ExprSyntax Left { get; }
     public SyntaxToken Op { get; }
-    public ExpressionNode Right { get; }
+    public ExprSyntax Right { get; }
 
     public override SyntaxKind Kind => SyntaxKind.BinaryNode;
 
