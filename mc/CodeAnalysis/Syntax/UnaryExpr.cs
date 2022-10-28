@@ -1,5 +1,5 @@
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
   public sealed class UnaryExpr : ExprSyntax {
     public UnaryExpr(SyntaxToken op, ExprSyntax operand) {

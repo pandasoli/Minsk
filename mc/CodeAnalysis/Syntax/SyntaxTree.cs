@@ -1,5 +1,5 @@
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
   public sealed class SyntaxTree {
     public SyntaxTree(IEnumerable<string> diags, ExprSyntax root, SyntaxToken eOF) {

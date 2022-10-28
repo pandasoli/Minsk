@@ -1,5 +1,5 @@
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
   sealed class LitExpr : ExprSyntax {
     public LitExpr(SyntaxToken lit) {
