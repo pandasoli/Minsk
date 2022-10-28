@@ -31,9 +31,9 @@ namespace Minsk.CodeAnalysis
       if (_pos >= _text.Length)
         return new SyntaxToken(SyntaxKind.EOF, _pos, "\0", null);
 
-      if (char.IsDigit(Current)) {
-        var start = _pos;
+      var start = _pos;
 
+      if (char.IsDigit(Current)) {
         while (char.IsDigit(Current))
           Next();
 
@@ -46,8 +46,6 @@ namespace Minsk.CodeAnalysis
       }
 
       if (char.IsWhiteSpace(Current)) {
-        var start = _pos;
-
         while (char.IsWhiteSpace(Current))
           Next();
 
