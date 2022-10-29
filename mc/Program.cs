@@ -9,11 +9,10 @@ namespace Minsk
     private static void Main() {
       var showTree = false;
 
-      while (true) {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("> ");
-        Console.ResetColor();
+      Console.WriteLine(" \x1b[42m\x1b[30m   Minsk Programming language <3   \x1b[0m\n");
 
+      while (true) {
+        Console.Write("\x1b[36m>\x1b[0m ");
         var line = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(line))
