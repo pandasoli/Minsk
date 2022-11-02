@@ -31,28 +31,40 @@ namespace Minsk
         }
 
         var ast = SyntaxTree.Parse(line);
-        var binder = new Binder();
-        var boundExpr = binder.BindExpr(ast.Root);
+        var comp = new Compilation(ast);
+        var res = comp.Evaluate();
 
-        var diags = ast.Diags.Concat(binder.Diags).ToArray();
+        var diags = res.Diags;
 
         if (showTree)
           PrettyPrint(ast.Root);
 
-        if (diags.Any()) {
-          Console.ForegroundColor = ConsoleColor.Red;
-
-          foreach (var diag in diags) {
-            Console.WriteLine($"  {diag}  ");
-          }
-
-          Console.ResetColor();
+        if (!diags.Any()) {
+          Console.WriteLine($"\x1b[2;36m𐡷\x1b[2;37m {res.Val}\x1b[0m");
         }
         else {
-          var eval = new Eval(boundExpr);
-          var res = eval.Evaluate();
+          foreach (var diag in diags) {
+            Console.WriteLine();
 
-          Console.WriteLine($"\x1b[2;36m𐡷\x1b[2;37m {res}\x1b[0m");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"  {diag}");
+            Console.ResetColor();
+
+            var prefix = line.Substring(0, diag.Span.Start);
+            var error = line.Substring(diag.Span.Start, diag.Span.Len);
+            var suffix = line.Substring(diag.Span.End);
+
+            Console.Write($"  ╰─ {prefix}");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(error);
+            Console.ResetColor();
+
+            Console.Write(suffix);
+            Console.WriteLine();
+          }
+
+          Console.WriteLine();
         }
       }
     }
