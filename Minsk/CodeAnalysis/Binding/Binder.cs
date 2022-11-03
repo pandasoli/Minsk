@@ -6,6 +6,11 @@ namespace Minsk.CodeAnalysis.Binding
   internal sealed class Binder
   {
     private readonly DiagBag _diags = new DiagBag();
+    private readonly Dictionary<VarSymbol, object> _vars;
+
+    public Binder(Dictionary<VarSymbol, object> vars) {
+      _vars = vars;
+    }
 
     public BoundExpr BindExpr(ExprSyntax syntax) {
       switch (syntax.Kind) {
@@ -13,10 +18,39 @@ namespace Minsk.CodeAnalysis.Binding
         case SyntaxKind.UnaryExpr:  return BindUnaryExpr((UnaryExpr) syntax);
         case SyntaxKind.LitExpr:    return BindLitExpr((LitExpr) syntax);
         case SyntaxKind.ParenExpr:  return BindParenExpr((ParenExpr) syntax);
+        case SyntaxKind.NameExpr:   return BindNameExpr((NameExpr) syntax);
+        case SyntaxKind.AssignExpr: return BindAssignExpr((AssignmExpr) syntax);
 
         default:
           throw new Exception($"Unexpected syntax {syntax.Kind}.");
       }
+    }
+
+    private BoundExpr BindNameExpr(NameExpr syntax) {
+      var name = syntax.Id.Text ?? "";
+      var var = _vars.Keys.FirstOrDefault(var => var.Name == name);
+
+      if (var == null) {
+        _diags.ReportUndefName(syntax.Id.Span, name);
+        return new BoundLitExpr(0);
+      }
+
+      return new BoundVarExpr(var);
+    }
+
+    private BoundExpr BindAssignExpr(AssignmExpr syntax) {
+      var name = syntax.Id.Text ?? "";
+      var boundExpr = BindExpr(syntax.Expr);
+
+      var exitingVar = _vars.Keys.FirstOrDefault(var => var.Name == name);
+
+      if (exitingVar != null)
+        _vars.Remove(exitingVar);
+
+      var var = new VarSymbol(name, boundExpr.Type);
+      _vars[var] = null;
+
+      return new BoundAssignmsExpr(var, boundExpr);
     }
 
     public DiagBag Diags => _diags;

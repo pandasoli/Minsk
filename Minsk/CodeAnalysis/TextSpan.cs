@@ -11,4 +11,5 @@ namespace Minsk.CodeAnalysis
     public int Len { get; }
     public int End => Start + Len;
   }
+
 }

@@ -106,6 +106,8 @@ namespace Minsk.CodeAnalysis.Syntax
               pos++;
               buff = "==";
             }
+            else
+              kind = SyntaxKind.EqsTk;
 
             break;
           case '!':

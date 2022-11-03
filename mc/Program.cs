@@ -8,6 +8,7 @@ namespace Minsk
   {
     private static void Main() {
       var showTree = false;
+      var vars = new Dictionary<VarSymbol, object>();
 
       Console.WriteLine(" \x1b[42m\x1b[30m   Minsk Programming language <3   \x1b[0m\n");
 
@@ -32,7 +33,7 @@ namespace Minsk
 
         var ast = SyntaxTree.Parse(line);
         var comp = new Compilation(ast);
-        var res = comp.Evaluate();
+        var res = comp.Evaluate(vars);
 
         var diags = res.Diags;
 

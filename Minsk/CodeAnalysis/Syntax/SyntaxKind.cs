@@ -8,6 +8,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
     NumberTk,
     IdTk,
+    NameExpr,
     WhiteSpaceTk,
 
     PlusTk,
@@ -23,6 +24,7 @@ namespace Minsk.CodeAnalysis.Syntax
     UnaryExpr,
     LitExpr,
     ParenExpr,
+    AssignExpr,
 
     // Keywords
     FalseKw,
@@ -32,6 +34,7 @@ namespace Minsk.CodeAnalysis.Syntax
     ApsdApsdTk,
     PipePipeTk,
     EqsEqsTk,
+    EqsTk,
     BangEqsTk
   }
 

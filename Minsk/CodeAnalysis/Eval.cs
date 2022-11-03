@@ -5,9 +5,11 @@ namespace Minsk.CodeAnalysis
   internal sealed class Eval
   {
     private readonly BoundExpr _root;
+    private readonly Dictionary<VarSymbol, object> _vars;
 
-    public Eval(BoundExpr root) {
+    public Eval(BoundExpr root, Dictionary<VarSymbol, object> vars) {
       _root = root;
+      _vars = vars;
     }
 
     public object Evaluate() {
@@ -18,11 +20,20 @@ namespace Minsk.CodeAnalysis
       if (node is BoundLitExpr num)
         return num.Val;
 
+      if (node is BoundVarExpr var)
+        return _vars[var.Var];
+
+      if (node is BoundAssignmsExpr ass) {
+        var val = EvalExpr(ass.Expr);
+        _vars[ass.Var] = val;
+        return val;
+      }
+
       if (node is BoundUnaryExpr unary) {
         var operand = EvalExpr(unary.Operand);
 
-        if (unary.Op.Kind == BoundUnaryOpKind.Identity) return  (int) operand;
-        if (unary.Op.Kind == BoundUnaryOpKind.Neg)      return -(int) operand;
+        if (unary.Op.Kind == BoundUnaryOpKind.Identity) return  (int)  operand;
+        if (unary.Op.Kind == BoundUnaryOpKind.Neg)      return -(int)  operand;
         if (unary.Op.Kind == BoundUnaryOpKind.LgcNeg)   return !(bool) operand;
 
         throw new Exception($"Unexpected unary operator {unary.Op}.");
@@ -41,7 +52,7 @@ namespace Minsk.CodeAnalysis
           case BoundBinaryOpKind.LgcAnd: return (bool) left && (bool) right;
           case BoundBinaryOpKind.LgcOr:  return (bool) left || (bool) right;
 
-          case BoundBinaryOpKind.Eqs:    return Equals(left, right);
+          case BoundBinaryOpKind.Eqs:    return  Equals(left, right);
           case BoundBinaryOpKind.NotEqs: return !Equals(left, right);
 
           default:

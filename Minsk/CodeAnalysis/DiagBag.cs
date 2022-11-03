@@ -19,6 +19,7 @@ namespace Minsk.CodeAnalysis
       _diags.Add(diag);
     }
 
+
     public void ReportInvNum(TextSpan span, string buff, Type type) {
       var msg = $"The number {buff} is not a valid {type}.";
       Report(span, msg);
@@ -43,6 +44,11 @@ namespace Minsk.CodeAnalysis
 
     public void ReportUndefBinaryOp(TextSpan span, string op, Type left, Type right) {
       var msg = $"Binary operator '{op}' is not defined for types {left} and {right}.";
+      Report(span, msg);
+    }
+
+    public void ReportUndefName(TextSpan span, string name) {
+      var msg = $"Variable '{name}' doesn't exist.";
       Report(span, msg);
     }
   }

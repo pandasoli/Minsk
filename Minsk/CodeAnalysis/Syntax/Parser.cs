@@ -61,13 +61,31 @@ namespace Minsk.CodeAnalysis.Syntax
       return new SyntaxTree(_diags, expr, eOF);
     }
 
-    private ExprSyntax ParseExpr(int parentPrece = 0) {
+    private ExprSyntax ParseExpr() {
+      return ParseAssignExpr();
+    }
+
+    private ExprSyntax ParseAssignExpr() {
+      if (
+        Peek(0).Kind == SyntaxKind.IdTk &&
+        Peek(1).Kind == SyntaxKind.EqsTk
+      ) {
+        var id = Next();
+        var op = Next();
+        var right = ParseAssignExpr();
+        return new AssignmExpr(id, op, right);
+      }
+
+      return ParseBinaryExpr();
+    }
+
+    private ExprSyntax ParseBinaryExpr(int parentPrece = 0) {
       ExprSyntax left;
       var unaryOpPrece = Current.Kind.GetUnaryOpPrece();
 
       if (unaryOpPrece != 0 && unaryOpPrece >= parentPrece) {
         var op = Next();
-        var operand = ParseExpr(unaryOpPrece);
+        var operand = ParseBinaryExpr(unaryOpPrece);
         left = new UnaryExpr(op, operand);
       }
       else {
@@ -80,7 +98,7 @@ namespace Minsk.CodeAnalysis.Syntax
           break;
 
         var op = Next();
-        var right = ParseExpr(prece);
+        var right = ParseBinaryExpr(prece);
         left = new BinaryExpr(left, op, right);
       }
 
@@ -104,6 +122,12 @@ namespace Minsk.CodeAnalysis.Syntax
             var token = Next();
             var val = token.Kind == SyntaxKind.TrueKw;
             return new LitExpr(token, val);
+          }
+
+        case SyntaxKind.IdTk:
+          {
+            var id = Next();
+            return new NameExpr(id);
           }
 
         default:
