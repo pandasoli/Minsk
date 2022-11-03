@@ -48,7 +48,6 @@ namespace Minsk.CodeAnalysis.Binding
         _vars.Remove(exitingVar);
 
       var var = new VarSymbol(name, boundExpr.Type);
-      _vars[var] = null;
 
       return new BoundAssignmsExpr(var, boundExpr);
     }
