@@ -114,7 +114,7 @@ namespace Minsk.CodeAnalysis.Syntax
             if (Lookahead == '=') {
               kind = SyntaxKind.BangEqsTk;
               pos++;
-              buff = "==";
+              buff = "!=";
             }
             else
               kind = SyntaxKind.BangTk;
