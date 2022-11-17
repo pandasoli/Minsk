@@ -33,8 +33,8 @@ namespace Minsk.CodeAnalysis.Syntax
     // Comparators
     ApsdApsdTk,
     PipePipeTk,
-    EqsEqsTk,
     EqsTk,
+    EqsEqsTk,
     BangEqsTk
   }
 
