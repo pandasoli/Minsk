@@ -16,6 +16,19 @@ namespace Minsk.CodeAnalysis.Syntax
       var par = new Parser(text);
       return par.Parse();
     }
+
+    public static IEnumerable<SyntaxToken> ParseTokens(string text) {
+      var lex = new Lexer(text);
+
+      while (true) {
+        var token = lex.Lex();
+
+        if (token.Kind == SyntaxKind.EOFTk)
+          break;
+
+        yield return token;
+      }
+    }
   }
 
 }
