@@ -14,7 +14,7 @@ namespace Minsk.CodeAnalysis.Binding
 
     public BoundExpr BindExpr(ExprSyntax syntax) {
       switch (syntax.Kind) {
-        case SyntaxKind.BinaryExpr: return BindBinaryExpr((BinaryExpr) syntax);
+        case SyntaxKind.BinExpr:    return BindBinaryExpr((BinExpr) syntax);
         case SyntaxKind.UnaryExpr:  return BindUnaryExpr((UnaryExpr) syntax);
         case SyntaxKind.LitExpr:    return BindLitExpr((LitExpr) syntax);
         case SyntaxKind.ParenExpr:  return BindParenExpr((ParenExpr) syntax);
@@ -71,7 +71,7 @@ namespace Minsk.CodeAnalysis.Binding
       return new BoundUnaryExpr(boundOp, boundOperand);
     }
 
-    private BoundExpr BindBinaryExpr(BinaryExpr syntax) {
+    private BoundExpr BindBinaryExpr(BinExpr syntax) {
       var boundLeft = BindExpr(syntax.Left);
       var boundRight = BindExpr(syntax.Right);
       var boundOp = BoundBinaryOp.Bind(syntax.Op.Kind, boundLeft.Type, boundRight.Type);

@@ -99,7 +99,7 @@ namespace Minsk.CodeAnalysis.Syntax
 
         var op = Next();
         var right = ParseBinaryExpr(prece);
-        left = new BinaryExpr(left, op, right);
+        left = new BinExpr(left, op, right);
       }
 
       return left;

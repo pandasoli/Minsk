@@ -1,8 +1,8 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  public sealed class BinaryExpr : ExprSyntax {
-    public BinaryExpr(ExprSyntax left, SyntaxToken op, ExprSyntax right) {
+  public sealed class BinExpr : ExprSyntax {
+    public BinExpr(ExprSyntax left, SyntaxToken op, ExprSyntax right) {
       Left = left;
       Op = op;
       Right = right;
