@@ -11,7 +11,7 @@ namespace Minsk.CodeAnalysis
 
     public SyntaxTree Syntax { get; }
 
-    public EvaluatRes Evaluate(Dictionary<VarSymbol, object> vars) {
+    public EvaluatRes Evaluate(Dictionary<VarSymbol, object?> vars) {
       var binder = new Binder(vars);
       var boundExpr = binder.BindExpr(Syntax.Root);
 
