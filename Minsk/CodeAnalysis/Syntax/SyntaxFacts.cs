@@ -15,7 +15,7 @@ namespace Minsk.CodeAnalysis.Syntax
       }
     }
     
-    public static int GetBinaryOpPrece(this SyntaxKind kind) {
+    public static int GetBinOpPrece(this SyntaxKind kind) {
       switch (kind) {
         case SyntaxKind.StarTk:
         case SyntaxKind.SlashTk:
@@ -48,6 +48,22 @@ namespace Minsk.CodeAnalysis.Syntax
         default:
           return SyntaxKind.IdTk;
       }
+    }
+
+    public static IEnumerable<SyntaxKind> GetUnaryOpKinds() {
+      var kinds = (SyntaxKind[]) System.Enum.GetValues(typeof(SyntaxKind));
+
+      foreach (var kind in kinds)
+        if (GetUnaryOpPrece(kind) > 0)
+          yield return kind;
+    }
+
+    public static IEnumerable<SyntaxKind> GetBinOpKinds() {
+      var kinds = (SyntaxKind[]) System.Enum.GetValues(typeof(SyntaxKind));
+
+      foreach (var kind in kinds)
+        if (GetBinOpPrece(kind) > 0)
+          yield return kind;
     }
 
     public static string? GetText(SyntaxKind kind) {
