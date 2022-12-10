@@ -72,12 +72,9 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
     }
 
     private static IEnumerable<object[]> GetBinOpPairsData() {
-      foreach (var op1 in SyntaxFacts.GetBinOpKinds()) {
-        foreach (var op2 in SyntaxFacts.GetBinOpKinds()) {
+      foreach (var op1 in SyntaxFacts.GetBinOpKinds())
+        foreach (var op2 in SyntaxFacts.GetBinOpKinds())
           yield return new object[] { op1, op2 };
-          yield break;
-        }
-      }
     }
   }
 }
