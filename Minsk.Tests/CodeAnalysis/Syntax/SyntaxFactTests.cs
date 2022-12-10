@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Minsk.Tests.CodeAnalysis.Syntax
 {
-  public class SyntaxFactTest
+  public class SyntaxFactTests
   {
     [Theory]
     [MemberData(nameof(GetSyntaxKindData))]
