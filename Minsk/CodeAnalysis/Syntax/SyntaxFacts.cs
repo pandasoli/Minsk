@@ -1,7 +1,7 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-  internal static class SyntaxFacts
+  public static class SyntaxFacts
   {
     public static int GetUnaryOpPrece(this SyntaxKind kind) {
       switch (kind) {
@@ -47,6 +47,28 @@ namespace Minsk.CodeAnalysis.Syntax
 
         default:
           return SyntaxKind.IdTk;
+      }
+    }
+
+    public static string? GetText(SyntaxKind kind) {
+      switch (kind) {
+        case SyntaxKind.PlusTk:       return  "+";
+        case SyntaxKind.DashTk:       return  "-";
+        case SyntaxKind.BangTk:       return  "!";
+        case SyntaxKind.StarTk:       return  "*";
+        case SyntaxKind.SlashTk:      return  "/";
+        case SyntaxKind.OpenParenTk:  return  "(";
+        case SyntaxKind.CloseParenTk: return  ")";
+        case SyntaxKind.FalseKw:      return  "false";
+        case SyntaxKind.TrueKw:       return  "true";
+        case SyntaxKind.ApsdApsdTk:   return  "&&";
+        case SyntaxKind.PipePipeTk:   return  "||";
+        case SyntaxKind.EqsEqsTk:     return  "==";
+        case SyntaxKind.EqsTk:        return  "=";
+        case SyntaxKind.BangEqsTk:    return  "!=";
+
+        default:
+          return null;
       }
     }
   }
