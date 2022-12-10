@@ -93,7 +93,7 @@ namespace Minsk.CodeAnalysis.Syntax
       }
 
       while (true) {
-        var prece = Current.Kind.GetBinaryOpPrece();
+        var prece = Current.Kind.GetBinOpPrece();
         if (prece == 0 || prece <= parentPrece)
           break;
 

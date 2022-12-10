@@ -20,7 +20,7 @@ namespace Minsk.CodeAnalysis.Syntax
     CloseParenTk,
 
     // Expressions
-    BinaryExpr,
+    BinExpr,
     UnaryExpr,
     LitExpr,
     ParenExpr,

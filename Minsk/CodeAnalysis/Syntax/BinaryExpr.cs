@@ -12,7 +12,7 @@ namespace Minsk.CodeAnalysis.Syntax
     public SyntaxToken Op { get; }
     public ExprSyntax Right { get; }
 
-    public override SyntaxKind Kind => SyntaxKind.BinaryExpr;
+    public override SyntaxKind Kind => SyntaxKind.BinExpr;
 
     public override IEnumerable<SyntaxNode> GetChildren() {
       yield return Left;
