@@ -13,7 +13,7 @@ namespace Minsk
       Console.WriteLine(" \x1b[42m\x1b[30m   Minsk Programming language <3   \x1b[0m\n");
 
       while (true) {
-        Console.Write("\x1b[36m𐡸\x1b[0m ");
+        Console.Write("\x1b[36m⮳\x1b[0m ");
         var line = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(line))
@@ -41,7 +41,7 @@ namespace Minsk
           PrettyPrint(ast.Root);
 
         if (!diags.Any()) {
-          Console.WriteLine($"\x1b[2;36m𐡷\x1b[2;37m {res.Val}\x1b[0m");
+          Console.WriteLine($"\x1b[2;36m⮱\x1b[2;37m {res.Val}\x1b[0m");
         }
         else {
           foreach (var diag in diags) {
