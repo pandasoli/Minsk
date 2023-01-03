@@ -1,6 +1,6 @@
 namespace Minsk.CodeAnalysis.Binding
 {
-  internal enum BoundBinaryOpKind {
+  internal enum BoundBinOpKind {
     Add,
     Sub,
     Mul,

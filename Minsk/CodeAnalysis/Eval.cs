@@ -39,21 +39,21 @@ namespace Minsk.CodeAnalysis
         throw new Exception($"Unexpected unary operator {unary.Op}.");
       }
 
-      if (node is BoundBinaryExpr bin) {
+      if (node is BoundBinExpr bin) {
         var left = EvalExpr(bin.Left);
         var right = EvalExpr(bin.Right);
 
         switch (bin.Op.Kind) {
-          case BoundBinaryOpKind.Add: return (int) (left ?? 0) + (int) (right ?? 0);
-          case BoundBinaryOpKind.Sub: return (int) (left ?? 0) - (int) (right ?? 0);
-          case BoundBinaryOpKind.Mul: return (int) (left ?? 0) * (int) (right ?? 0);
-          case BoundBinaryOpKind.Div: return (int) (left ?? 0) / (int) (right ?? 0);
+          case BoundBinOpKind.Add: return (int) (left ?? 0) + (int) (right ?? 0);
+          case BoundBinOpKind.Sub: return (int) (left ?? 0) - (int) (right ?? 0);
+          case BoundBinOpKind.Mul: return (int) (left ?? 0) * (int) (right ?? 0);
+          case BoundBinOpKind.Div: return (int) (left ?? 0) / (int) (right ?? 0);
 
-          case BoundBinaryOpKind.LgcAnd: return (bool) (left ?? false) && (bool) (right ?? false);
-          case BoundBinaryOpKind.LgcOr:  return (bool) (left ?? false) || (bool) (right ?? false);
+          case BoundBinOpKind.LgcAnd: return (bool) (left ?? false) && (bool) (right ?? false);
+          case BoundBinOpKind.LgcOr:  return (bool) (left ?? false) || (bool) (right ?? false);
 
-          case BoundBinaryOpKind.Eqs:    return  Equals(left, right);
-          case BoundBinaryOpKind.NotEqs: return !Equals(left, right);
+          case BoundBinOpKind.Eqs:    return  Equals(left, right);
+          case BoundBinOpKind.NotEqs: return !Equals(left, right);
 
           default:
             throw new Exception($"Unexpected binary operator {bin.Op}.");

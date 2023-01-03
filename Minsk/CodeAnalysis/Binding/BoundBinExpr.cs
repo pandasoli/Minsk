@@ -1,15 +1,15 @@
 namespace Minsk.CodeAnalysis.Binding
 {
-  internal sealed class BoundBinaryExpr : BoundExpr
+  internal sealed class BoundBinExpr : BoundExpr
   {
-    public BoundBinaryExpr(BoundExpr left, BoundBinaryOp op, BoundExpr right) {
+    public BoundBinExpr(BoundExpr left, BoundBinOp op, BoundExpr right) {
       Left = left;
       Op = op;
       Right = right;
     }
 
     public BoundExpr Left { get; }
-    public BoundBinaryOp Op { get; }
+    public BoundBinOp Op { get; }
     public BoundExpr Right { get; }
 
     public override Type Type => Op.Type;

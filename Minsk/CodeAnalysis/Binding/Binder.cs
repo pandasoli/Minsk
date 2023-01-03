@@ -75,14 +75,14 @@ namespace Minsk.CodeAnalysis.Binding
     private BoundExpr BindBinaryExpr(BinExpr syntax) {
       var boundLeft = BindExpr(syntax.Left);
       var boundRight = BindExpr(syntax.Right);
-      var boundOp = BoundBinaryOp.Bind(syntax.Op.Kind, boundLeft.Type, boundRight.Type);
+      var boundOp = BoundBinOp.Bind(syntax.Op.Kind, boundLeft.Type, boundRight.Type);
 
       if (boundOp == null) {
         _diags.ReportUndefBinaryOp(syntax.Op.Span, syntax.Op?.Text ?? "", boundLeft.Type, boundRight.Type);
         return boundLeft;
       }
 
-      return new BoundBinaryExpr(boundLeft, boundOp, boundRight);
+      return new BoundBinExpr(boundLeft, boundOp, boundRight);
     }
 
     private BoundExpr BindParenExpr(ParenExpr syntax) {
