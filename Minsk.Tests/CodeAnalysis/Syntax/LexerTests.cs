@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Minsk.CodeAnalysis.Syntax;
@@ -7,6 +8,22 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
 {
   public class LexerTests
   {
+    [Fact]
+    public void Lexer_Tests_AllTokens() {
+      var tokenKinds = Enum.GetValues(typeof(SyntaxKind))
+        .Cast<SyntaxKind>()
+        .Where(k => k.ToString().EndsWith("Kw") || k.ToString().EndsWith("Tk"));
+
+      var testedTokenKinds = GetTokens().Concat(GetSeps()).Select(t => t.kind);
+
+      var untestedTokenKinds = new SortedSet<SyntaxKind>(tokenKinds);
+      untestedTokenKinds.Remove(SyntaxKind.BadTk);
+      untestedTokenKinds.Remove(SyntaxKind.EOFTk);
+      untestedTokenKinds.ExceptWith(testedTokenKinds);
+
+      Assert.Empty(untestedTokenKinds);
+    }
+
     [Theory]
     [MemberData(nameof(GetTokensData))]
     public void Lexer_Lexs_Token(SyntaxKind kind, string text) {
@@ -66,30 +83,20 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
     }
 
     private static IEnumerable<(SyntaxKind kind, string text)> GetTokens() {
-      return new[] {
+      var fixedTokens = Enum.GetValues(typeof(SyntaxKind))
+        .Cast<SyntaxKind>()
+        .Select(k => (kind: k, text: SyntaxFacts.GetText(k)))
+        .Where(t => t.text != null);
+
+      var dynamicTokens = new[] {
         (SyntaxKind.NumberTk, "1"),
         (SyntaxKind.NumberTk, "123"),
 
         (SyntaxKind.IdTk, "a"),
-        (SyntaxKind.IdTk, "abc"),
-
-        (SyntaxKind.PlusTk, "+"),
-        (SyntaxKind.DashTk, "-"),
-        (SyntaxKind.BangTk, "!"),
-        (SyntaxKind.StarTk, "*"),
-        (SyntaxKind.SlashTk, "/"),
-        (SyntaxKind.OpenParenTk, "("),
-        (SyntaxKind.CloseParenTk, ")"),
-
-        (SyntaxKind.FalseKw, "false"),
-        (SyntaxKind.TrueKw, "true"),
-
-        (SyntaxKind.ApsdApsdTk, "&&"),
-        (SyntaxKind.PipePipeTk, "||"),
-        (SyntaxKind.EqsEqsTk, "=="),
-        (SyntaxKind.EqsTk, "="),
-        (SyntaxKind.BangEqsTk, "!=")
+        (SyntaxKind.IdTk, "abc")
       };
+
+      return fixedTokens!.Concat(dynamicTokens);
     }
     private static IEnumerable<(SyntaxKind kind, string text)> GetSeps() {
       return new[] {
