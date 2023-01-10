@@ -39,7 +39,7 @@ namespace Minsk.CodeAnalysis.Syntax
       _val = null;
 
       switch (Current) {
-        case '\0':         _kind = SyntaxKind.EOFTk;        break;
+        case '\0':        _kind = SyntaxKind.EOFTk;        break;
         case '+':  _pos++; _kind = SyntaxKind.PlusTk;       break;
         case '-':  _pos++; _kind = SyntaxKind.DashTk;       break;
         case '*':  _pos++; _kind = SyntaxKind.StarTk;       break;
