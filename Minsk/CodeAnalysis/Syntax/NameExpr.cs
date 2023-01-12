@@ -9,9 +9,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public SyntaxToken Id { get; }
 
     public override SyntaxKind Kind => SyntaxKind.NameExpr;
-    public override IEnumerable<SyntaxNode> GetChildren() {
-      yield return Id;
-    }
   }
 
 }

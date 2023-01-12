@@ -14,13 +14,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public SyntaxToken Open { get; }
     public ExprSyntax Expr { get; }
     public SyntaxToken Close { get; }
-
-    public override IEnumerable<SyntaxNode> GetChildren()
-    {
-      yield return Open;
-      yield return Expr;
-      yield return Close;
-    }
   }
 
 }

@@ -13,11 +13,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public ExprSyntax Expr { get; }
 
     public override SyntaxKind Kind => SyntaxKind.AssignExpr;
-    public override IEnumerable<SyntaxNode> GetChildren() {
-      yield return Id;
-      yield return Eqs;
-      yield return Expr;
-    }
   }
 
 }

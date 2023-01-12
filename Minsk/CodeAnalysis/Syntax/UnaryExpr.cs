@@ -11,11 +11,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public ExprSyntax Operand { get; }
 
     public override SyntaxKind Kind => SyntaxKind.UnaryExpr;
-
-    public override IEnumerable<SyntaxNode> GetChildren() {
-      yield return Op;
-      yield return Operand;
-    }
   }
 
 }

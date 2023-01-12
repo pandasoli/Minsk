@@ -12,10 +12,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public override SyntaxKind Kind => SyntaxKind.LitExpr;
     public SyntaxToken Token { get; }
     public object? Val { get; }
-
-    public override IEnumerable<SyntaxNode> GetChildren() {
-      yield return Token;
-    }
   }
 
 }

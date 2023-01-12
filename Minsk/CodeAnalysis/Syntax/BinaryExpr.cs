@@ -13,12 +13,6 @@ namespace Minsk.CodeAnalysis.Syntax
     public ExprSyntax Right { get; }
 
     public override SyntaxKind Kind => SyntaxKind.BinExpr;
-
-    public override IEnumerable<SyntaxNode> GetChildren() {
-      yield return Left;
-      yield return Op;
-      yield return Right;
-    }
   }
 
 }
