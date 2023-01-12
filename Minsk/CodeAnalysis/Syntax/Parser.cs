@@ -3,7 +3,7 @@ namespace Minsk.CodeAnalysis.Syntax
 {
   internal sealed class Parser
   {
-    private DiagBag _diags = new DiagBag();
+    private readonly DiagBag _diags = new DiagBag();
     private readonly SyntaxToken[] _tokens;
     private int _pos;
 
@@ -108,36 +108,44 @@ namespace Minsk.CodeAnalysis.Syntax
     private ExprSyntax ParsePrimExpr() {
       switch (Current.Kind) {
         case SyntaxKind.OpenParenTk:
-          {
-            var left = Next();
-            var expr = ParseExpr();
-            var right = Match(SyntaxKind.CloseParenTk);
-
-            return new ParenExpr(left, expr, right);
-          }
+          return ParseParenExpr();
 
         case SyntaxKind.TrueKw:
         case SyntaxKind.FalseKw:
-          {
-            var token = Next();
-            var val = token.Kind == SyntaxKind.TrueKw;
-            return new LitExpr(token, val);
-          }
+          return ParseBoolLit();
+
+        case SyntaxKind.NumTk:
+          return ParseNumLit();
 
         case SyntaxKind.IdTk:
-          {
-            var id = Next();
-            return new NameExpr(id);
-          }
-
         default:
-          {
-            var num = Match(SyntaxKind.NumberTk);
-            return new LitExpr(num);
-          }
+          return ParseNameExpr();
       }
     }
 
+    private ExprSyntax ParseNumLit() {
+      var num = Match(SyntaxKind.NumTk);
+      return new LitExpr(num);
+    }
+
+    private ExprSyntax ParseBoolLit() {
+      var isTrue = Current.Kind == SyntaxKind.TrueKw;
+      var token = Match(isTrue ? SyntaxKind.TrueKw : SyntaxKind.FalseKw);
+      return new LitExpr(token, isTrue);
+    }
+
+    private ExprSyntax ParseNameExpr() {
+      var id = Match(SyntaxKind.IdTk);
+      return new NameExpr(id);
+    }
+
+    private ExprSyntax ParseParenExpr() {
+      var left = Match(SyntaxKind.OpenParenTk);
+      var expr = ParseExpr();
+      var right = Match(SyntaxKind.CloseParenTk);
+
+      return new ParenExpr(left, expr, right);
+    }
   }
 
 }
