@@ -1,5 +1,5 @@
-
 using System.Collections.Immutable;
+using Minsk.CodeAnalysis.Text;
 
 namespace Minsk.CodeAnalysis.Syntax
 {
@@ -7,11 +7,12 @@ namespace Minsk.CodeAnalysis.Syntax
   {
     private readonly DiagBag _diags = new DiagBag();
     private readonly ImmutableArray<SyntaxToken> _tokens;
+    private readonly SourceText _text;
     private int _pos;
 
     public DiagBag Diags => _diags;
 
-    public Parser(string text) {
+    public Parser(SourceText text) {
       var tokens = new List<SyntaxToken>();
       var lex = new Lexer(text);
       SyntaxToken token;
@@ -28,6 +29,7 @@ namespace Minsk.CodeAnalysis.Syntax
       while (token.Kind != SyntaxKind.EOFTk);
 
       _tokens = tokens.ToImmutableArray();
+      _text = text;
       _diags.AddRange(lex.Diags);
     }
 
@@ -60,7 +62,7 @@ namespace Minsk.CodeAnalysis.Syntax
       var expr = ParseExpr();
       var eOF = Match(SyntaxKind.EOFTk);
 
-      return new SyntaxTree(_diags.ToImmutableArray(), expr, eOF);
+      return new SyntaxTree(_text, _diags.ToImmutableArray(), expr, eOF);
     }
 
     private ExprSyntax ParseExpr() {

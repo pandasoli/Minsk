@@ -14,24 +14,24 @@ namespace Minsk
 
       while (true) {
         Console.Write("\x1b[36m⮳\x1b[0m ");
-        var line = Console.ReadLine();
+        var code = Console.ReadLine();
 
-        if (string.IsNullOrWhiteSpace(line))
+        if (string.IsNullOrWhiteSpace(code))
           return;
 
-        if (line == "#showTree") {
+        if (code == "#showTree") {
           showTree = !showTree;
           Console.ForegroundColor = showTree ? ConsoleColor.Green : ConsoleColor.Yellow;
           Console.WriteLine("  🌴️ " + (showTree ? "Showing" : "Not showing") + " parse trees." );
           Console.ResetColor();
           continue;
         }
-        else if (line == "#cls") {
+        else if (code == "#cls") {
           Console.Clear();
           continue;
         }
 
-        var ast = SyntaxTree.Parse(line);
+        var ast = SyntaxTree.Parse(code);
         var comp = new Compilation(ast);
         var res = comp.Evaluate(vars);
 
@@ -44,16 +44,23 @@ namespace Minsk
           Console.WriteLine($"\x1b[2;36m⮱\x1b[2;37m {res.Val}\x1b[0m");
         }
         else {
+          var text = ast.Text;
+
           foreach (var diag in diags) {
+            var lineIndex = text.GetLineIndex(diag.Span.Start);
+            var lineNumber = lineIndex + 1;
+            var ch = diag.Span.Start - text.Lines[lineIndex].Start + 1;
+
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"  {diag}");
+            Console.Write($"({lineNumber}, {ch}): ");
+            Console.WriteLine(diag);
             Console.ResetColor();
 
-            var prefix = line.Substring(0, diag.Span.Start);
-            var error = line.Substring(diag.Span.Start, diag.Span.Len);
-            var suffix = line.Substring(diag.Span.End);
+            var prefix = code.Substring(0, diag.Span.Start);
+            var error = code.Substring(diag.Span.Start, diag.Span.Len);
+            var suffix = code.Substring(diag.Span.End);
 
             Console.Write($"  ╰─ {prefix}");
 

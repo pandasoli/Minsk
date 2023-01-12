@@ -5,7 +5,7 @@ namespace Minsk.CodeAnalysis.Syntax
   internal sealed class Lexer
   {
     private readonly DiagBag _diags = new DiagBag();
-    private readonly string _text;
+    private readonly SourceText _text;
 
     private int _pos;
 
@@ -13,7 +13,7 @@ namespace Minsk.CodeAnalysis.Syntax
     private SyntaxKind _kind;
     private object? _val;
 
-    public Lexer(string text) {
+    public Lexer(SourceText text) {
       _text = text;
     }
 
@@ -110,7 +110,7 @@ namespace Minsk.CodeAnalysis.Syntax
       }
 
       int len = _pos - _start;
-      string buff = SyntaxFacts.GetText(_kind) ?? _text.Substring(_start, len);
+      string buff = SyntaxFacts.GetText(_kind) ?? _text.ToString(_start, len);
 
       return new SyntaxToken(_kind, _start, buff, _val);
     }
@@ -120,9 +120,9 @@ namespace Minsk.CodeAnalysis.Syntax
         _pos++;
 
       var len = _pos - _start;
-      var buff = _text.Substring(_start, len);
+      var buff = _text.ToString(_start, len);
       if (!int.TryParse(buff, out var res))
-        _diags.ReportInvNum(new TextSpan(_start, len), _text, typeof(int));
+        _diags.ReportInvNum(new TextSpan(_start, len), buff, typeof(int));
 
       _val = res;
       _kind = SyntaxKind.NumTk;
@@ -140,7 +140,7 @@ namespace Minsk.CodeAnalysis.Syntax
         _pos++;
 
       var len = _pos - _start;
-      var buff = _text.Substring(_start, len);
+      var buff = _text.ToString(_start, len);
       _kind = SyntaxFacts.GetKeywordKind(buff);
     }
   }
