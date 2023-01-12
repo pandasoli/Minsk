@@ -89,8 +89,8 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
         .Where(t => t.text != null);
 
       var dynamicTokens = new[] {
-        (SyntaxKind.NumberTk, "1"),
-        (SyntaxKind.NumberTk, "123"),
+        (SyntaxKind.NumTk, "1"),
+        (SyntaxKind.NumTk, "123"),
 
         (SyntaxKind.IdTk, "a"),
         (SyntaxKind.IdTk, "abc")
@@ -121,7 +121,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
       if (t1Kw && t2Kind == SyntaxKind.IdTk) return true;
       if (t1Kind == SyntaxKind.IdTk && t2Kw) return true;
 
-      if (t1Kind == SyntaxKind.NumberTk && t2Kind == SyntaxKind.NumberTk)
+      if (t1Kind == SyntaxKind.NumTk && t2Kind == SyntaxKind.NumTk)
         return true;
 
       if (t1Kind == SyntaxKind.BangTk && t2Kind == SyntaxKind.EqsTk   ) return true;

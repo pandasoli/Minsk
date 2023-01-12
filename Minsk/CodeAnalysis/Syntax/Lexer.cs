@@ -124,7 +124,7 @@ namespace Minsk.CodeAnalysis.Syntax
         _diags.ReportInvNum(new TextSpan(_start, len), _text, typeof(int));
 
       _val = res;
-      _kind = SyntaxKind.NumberTk;
+      _kind = SyntaxKind.NumTk;
     }
 
     private void ReadWhiteSpaceTk() {

@@ -6,7 +6,7 @@ namespace Minsk.CodeAnalysis.Syntax
     BadTk,
     EOFTk,
 
-    NumberTk,
+    NumTk,
     IdTk,
     NameExpr,
     WhiteSpaceTk,
