@@ -38,7 +38,7 @@ namespace Minsk
         var diags = res.Diags;
 
         if (showTree)
-          PrettyPrint(ast.Root);
+          ast.Root.WriteTo(Console.Out);
 
         if (!diags.Any()) {
           Console.WriteLine($"\x1b[2;36m⮱\x1b[2;37m {res.Val}\x1b[0m");
@@ -68,33 +68,6 @@ namespace Minsk
           Console.WriteLine();
         }
       }
-    }
-
-    static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true) {
-      var marker = isLast ? "╰─ " : "├─ ";
-
-      Console.ForegroundColor = ConsoleColor.DarkGray;
-      Console.Write(indent);
-      Console.Write(marker);
-      Console.ForegroundColor = ConsoleColor.Blue;
-      Console.Write(node.Kind);
-      Console.ResetColor();
-
-      if (node is SyntaxToken tok && tok.Val != null) {
-        Console.Write(": ");
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.Write(tok.Val);
-
-        Console.ResetColor();
-      }
-
-      Console.WriteLine();
-
-      indent += isLast ? "   " : "│  ";
-      var last = node.GetChildren().LastOrDefault();
-
-      foreach (var child in node.GetChildren())
-        PrettyPrint(child, indent, child == last);
     }
   }
 }
