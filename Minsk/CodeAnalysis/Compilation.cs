@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Minsk.CodeAnalysis.Binding;
 using Minsk.CodeAnalysis.Syntax;
 
@@ -15,7 +16,7 @@ namespace Minsk.CodeAnalysis
       var binder = new Binder(vars);
       var boundExpr = binder.BindExpr(Syntax.Root);
 
-      var diags = Syntax.Diags.Concat(binder.Diags).ToArray();
+      var diags = Syntax.Diags.Concat(binder.Diags).ToImmutableArray();
 
       if (diags.Any())
         return new EvaluatRes(diags, null);
@@ -23,7 +24,7 @@ namespace Minsk.CodeAnalysis
       var eval = new Eval(boundExpr, vars);
       var val = eval.Evaluate();
 
-      return new EvaluatRes(Array.Empty<Diag>(), val);
+      return new EvaluatRes(ImmutableArray<Diag>.Empty, val);
     }
   }
 }

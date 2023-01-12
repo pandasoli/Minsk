@@ -1,10 +1,12 @@
 
+using System.Collections.Immutable;
+
 namespace Minsk.CodeAnalysis.Syntax
 {
   internal sealed class Parser
   {
     private readonly DiagBag _diags = new DiagBag();
-    private readonly SyntaxToken[] _tokens;
+    private readonly ImmutableArray<SyntaxToken> _tokens;
     private int _pos;
 
     public DiagBag Diags => _diags;
@@ -25,7 +27,7 @@ namespace Minsk.CodeAnalysis.Syntax
       }
       while (token.Kind != SyntaxKind.EOFTk);
 
-      _tokens = tokens.ToArray();
+      _tokens = tokens.ToImmutableArray();
       _diags.AddRange(lex.Diags);
     }
 
@@ -58,7 +60,7 @@ namespace Minsk.CodeAnalysis.Syntax
       var expr = ParseExpr();
       var eOF = Match(SyntaxKind.EOFTk);
 
-      return new SyntaxTree(_diags, expr, eOF);
+      return new SyntaxTree(_diags.ToImmutableArray(), expr, eOF);
     }
 
     private ExprSyntax ParseExpr() {

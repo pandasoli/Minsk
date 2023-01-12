@@ -1,14 +1,15 @@
+using System.Collections.Immutable;
 
 namespace Minsk.CodeAnalysis.Syntax
 {
   public sealed class SyntaxTree {
-    public SyntaxTree(IEnumerable<Diag> diags, ExprSyntax root, SyntaxToken eOF) {
-      Diags = diags.ToArray();
+    public SyntaxTree(ImmutableArray<Diag> diags, ExprSyntax root, SyntaxToken eOF) {
+      Diags = diags;
       Root = root;
       EOF = eOF;
     }
 
-    public IReadOnlyList<Diag> Diags { get; }
+    public ImmutableArray<Diag> Diags { get; }
     public ExprSyntax Root { get; }
     public SyntaxToken EOF { get; }
 

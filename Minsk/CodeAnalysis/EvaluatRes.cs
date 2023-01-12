@@ -1,12 +1,14 @@
+using System.Collections.Immutable;
+
 namespace Minsk.CodeAnalysis
 {
   public sealed class EvaluatRes {
-    public EvaluatRes(IEnumerable<Diag> diags, object? val) {
-      Diags = diags.ToArray();
+    public EvaluatRes(ImmutableArray<Diag> diags, object? val) {
+      Diags = diags;
       Val = val;
     }
 
-    public IReadOnlyList<Diag> Diags { get; }
+    public ImmutableArray<Diag> Diags { get; }
     public object? Val { get; }
   }
 }
